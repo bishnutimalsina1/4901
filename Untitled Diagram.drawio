@@ -1,1 +1,63 @@
-<mxfile host="app.diagrams.net" modified="2021-09-23T17:37:52.773Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1 Safari/605.1.15" etag="dfuP9QQBC7BnAr-Q4R0u" version="15.2.9" type="github" pages="2"><diagram id="KtJzVkYdxNgb8ECq-PnG" name="Page-1">jZTJbtswEEC/RkB7kKElUZqjrcQpUgQ95NBjQZM0RZgi1REdWf36DkVqixE0F5N+s2gWzkR5WV+egDTVi2FcRVnCLlH+EGXZ/U2Bvw70HhQ3tx4IkMyjdAav8i8PMAn0LBlvV4rWGGVls4bUaM2pXTECYLq12tGo9VcbIvgVeKVEXdNfktnK02+3ycy/cymq8ctpEiQ1GZUDaCvCTLdA+WOUl2CM9bf6UnLlajfWxdvtP5BOgQHX9jMGxXOZlvdP8CM5NX3SdS93P5/j4OWNqHNIOMoKhf52B3BVVaT1BSz+nF2gu23TKB5LbTnQimjBY807JTWfVVyutg8FHOHRaBu3Q3u3qJA1l0FztilEOIevy1o4N0BXTiprXdu3Lslsr4XUPd0IaavzYSMNIiBHeZJ4YYa2eCSbbINV2f+WNTbKEXwnlmC4EDNJBJB602jxn9ipUQZ83CAOX9Bhidfx+OrNfILe1mlqAzVRC1kXnsl7oeIWixm3DaESQ7mSW36xWHA2tNkJk1A7L7FAdHtE/dESWzFIOwNs7XVtyDg1QKw0+r0lk22jSO/xQRl68rwmgCX3mJytWSb+ic5mq+JmLoihpzUm+pCGNxI2AE7HDrjzOk5dOpFp3tLhoSwm83YEk8pEtm3j10M6xfLGAWP4cJrSaUZxt3FTcws9qgSDPEx1WGvZOPbdvCSyu8CqxYKYFElYTGJyPc8uXsL4jn/nNTHIFrs2f/wH</diagram><diagram id="88aZP7cHcvnOYW69LjKt" name="Page-2">nZNNb8IwDIZ/TY+T2gYYHMfXGBNsUtkQx6gJTaa07kKgLb9+6epQOg7Tdqmcx84b+bXrkUlaPmqaixUwrrzQZ6VHpl4YjnoD+61B1YBBr9+AREvWoKAFkTxzhD7So2T80Ck0AMrIvAtjyDIemw6jWkPRLduD6r6a04TfgCim6pZuJTOiocO+3/IFl4lwLwc+ZlLqihEcBGVQXCEy88hEA5gmSssJV7V3zpflZvcxX7+93H+eN+uoXKZwCO8asflfrlxa0Dwz/5Z+zmDwUO1gtXhPnvTrabt4n+IV/0TVEf3CXk3lDNRwzBivRXyPjAshDY9yGtfZwm6MZcKkyp4CG+4hM7gD1p8xqnNtePljHL/0ElwMtovJIeVGV/Yeqrjp4U4O3YiKdsJkhExcT7eHkOJWJRfp1jkboHnu2M74O3f1o5DZFw==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2021-09-23T18:03:14.299Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1 Safari/605.1.15" etag="WsPBdIJ2qG_EmLgDjKBi" version="15.3.1" type="github" pages="2">
+  <diagram id="KtJzVkYdxNgb8ECq-PnG" name="Page-1">
+    <mxGraphModel dx="946" dy="645" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="6JC1C9GrK0kpy0wwM7OJ-1" value="&lt;br class=&quot;Apple-interchange-newline&quot; style=&quot;font-size: 2px;&quot;&gt;&lt;img src=&quot;https://nginyc.github.io/rafiki/docs/0.2.0/_images/container-diagram.png&quot; style=&quot;color: rgb(0, 0, 0); font-style: normal; font-weight: normal; letter-spacing: normal; text-indent: 0px; text-transform: none; word-spacing: 0px; text-decoration: none; display: block; margin: auto; font-size: 2px;&quot;&gt;" style="text;html=1;fontSize=2;resizeWidth=1;resizeHeight=1;imageWidth=5;imageHeight=5;imageAspect=1;" parent="1" vertex="1">
+          <mxGeometry x="30" y="200" width="270" height="200" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="88aZP7cHcvnOYW69LjKt" name="Page-2">
+    <mxGraphModel dx="541" dy="369" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="JTYjFNUO7qzTNSxJmos2-0" />
+        <mxCell id="JTYjFNUO7qzTNSxJmos2-1" parent="JTYjFNUO7qzTNSxJmos2-0" />
+        <mxCell id="NX4JMW8KbotMPzw3ktvl-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="110" y="680" width="530" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="NX4JMW8KbotMPzw3ktvl-0" value="Storage Layer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="290" y="955" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="NX4JMW8KbotMPzw3ktvl-2" value="Backend Layer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="660" y="950" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NX4JMW8KbotMPzw3ktvl-3" value="AWS EC2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="350" y="1060" width="125" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="NX4JMW8KbotMPzw3ktvl-6" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="140" y="920" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="NX4JMW8KbotMPzw3ktvl-5" value="MySQL" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="185" y="995" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NX4JMW8KbotMPzw3ktvl-7" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://static.thenounproject.com/png/9658-200.png;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="170" y="925" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="NX4JMW8KbotMPzw3ktvl-9" value="Apache" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="360" y="1020" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="bbYZTNoHcN4oo4c7qdkR-1" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn.freebiesupply.com/logos/large/2x/flask-logo-png-transparent.png;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="295.48" y="690" width="54.52" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bbYZTNoHcN4oo4c7qdkR-2" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://quintagroup.com/cms/python/images/sqlalchemy-logo.png/@@images/eca35254-a2db-47a8-850b-2678f7f8bc09.png;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="225" y="826.64" width="190.31" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="bbYZTNoHcN4oo4c7qdkR-3" value="ORM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=23;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="255.14999999999998" y="850" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="bbYZTNoHcN4oo4c7qdkR-4" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=23;fillColor=none;" vertex="1" parent="JTYjFNUO7qzTNSxJmos2-1">
+          <mxGeometry x="210" y="816.64" width="220" height="73.36" as="geometry" />
+        </mxCell>
+        <mxCell id="bbYZTNoHcN4oo4c7qdkR-5" value="" style="endArrow=classic;html=1;fontSize=23;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="JTYjFNUO7qzTNSxJmos2-1" source="bbYZTNoHcN4oo4c7qdkR-1" target="bbYZTNoHcN4oo4c7qdkR-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="800" as="sourcePoint" />
+            <mxPoint x="450" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
