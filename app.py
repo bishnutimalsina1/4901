@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
 import pymysql
-from Timely.__init__ import create_app, db
+from __init__ import create_app, db
 
 app = create_app('dev')
 

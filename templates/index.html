@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<style>
+    .title_container{
+        display: grid;
+        color: cadetblue;
+    }
+</style>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Starter Page</title>
+</head>
+<body>
+    <div class="title_container">Hello World! We have users:
+    <ul>
+        {% for user in user_data %}
+            <li>{{ user['first_name'] }},{{ user['last_name'] }}</li>
+        {% endfor %}
+    </ul>
+    </div>
+</body>
+</html>
