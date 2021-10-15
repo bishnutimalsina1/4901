@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+
+{% block style %}
+<style>
+    .register_input{
+        grid-auto-columns: auto;
+    }
+    .container{
+        background-color: #d3d3d3;
+        padding: 10px;
+        box-shadow: #8e8e8e;
+    }
+    #register_form{
+        background-color: #d3d3d3;
+
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form id ="register_form" class="form-control" style="padding: 5px;" method="post" action="">
+            {% for field in form if field.name != 'csrf_token' %}
+                {{ field }}
+            {% endfor %}
+        </form>
+    {% if form.errors %}
+        {{ form.errors.username }}
+    {% endif %}
+    <div>
+{% endblock %}
