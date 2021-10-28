@@ -1,31 +1,59 @@
 {% extends 'index.html' %}
-
-{% block style %}
 <style>
-    .register_input{
-        grid-auto-columns: auto;
-    }
-    .container{
-        background-color: #d3d3d3;
-        padding: 10px;
-        box-shadow: #8e8e8e;
-    }
-    #register_form{
-        background-color: #d3d3d3;
-
+    .register{
+        background-color: #dcdcdc;
     }
 </style>
-{% endblock %}
-
 {% block content %}
-    <div class="container">
-        <form id ="register_form" class="form-control" style="padding: 5px;" method="post" action="">
-            {% for field in form if field.name != 'csrf_token' %}
-                {{ field }}
-            {% endfor %}
-        </form>
-    {% if form.errors %}
-        {{ form.errors.username }}
-    {% endif %}
-    <div>
+<section class="vh-100" style="background-color: #FFFFFF;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center" style="background-color: #dcdcdc">
+
+            <h3 class="mb-5">Register</h3>
+            <form class="register">
+                  <div class="form-outline mb-4">
+                      <input type="text" id="fname" class="form-control form-control-lg" />
+                      <label class="form-label" for="typeEmailX-2">First Name</label>
+                  </div>
+                  <div class="form-outline mb-4">
+                      <input type="text" id="lname" class="form-control form-control-lg" />
+                      <label class="form-label" for="typeEmailX-2">Last Name</label>
+                  </div>
+                  <div class="form-outline mb-4">
+                      <input type="text" id="business_name" class="form-control form-control-lg" />
+                      <label class="form-label" for="typeEmailX-2">Business Name</label>
+                  </div>
+                  <div class="form-outline mb-4">
+                      <input type="email" id="email" class="form-control form-control-lg" />
+                      <label class="form-label" for="typeEmailX-2">Email</label>
+                  </div>
+                  <div class="form-outline mb-4">
+                      <input type="password" id="passwd" class="form-control form-control-lg" />
+                      <label class="form-label" for="typePasswordX-2">Password</label>
+                  </div>
+                  <div class="form-outline mb-4">
+                      <select class="form-control form-control-lg">
+                          <option value="contractor">Contractor</option>
+                          <option value="employer">Employer</option>
+                      </select>
+                      <label class="form-label" for="business_type">Select The Type of Business You Operate.</label>
+                  </div>
+                  <div class="form-outline mb-4">
+                      <select class="form-control form-control-lg">
+
+                      </select>
+                  </div>
+                <input class="btn btn-primary btn-lg btn-block" type="submit"></input>
+          </form>
+            <hr class="my-4">'
+            <label class="form-label"><a href={{ url_for('login') }}>Already Have An Account? Login In Here</a></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
