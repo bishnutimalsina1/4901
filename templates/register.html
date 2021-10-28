@@ -13,41 +13,36 @@
           <div class="card-body p-5 text-center" style="background-color: #dcdcdc">
 
             <h3 class="mb-5">Register</h3>
-            <form class="register">
+            <form class="register" enctype="multipart/form-data" method="post">
+
                   <div class="form-outline mb-4">
-                      <input type="text" id="fname" class="form-control form-control-lg" />
-                      <label class="form-label" for="typeEmailX-2">First Name</label>
+                      {{ form.first_name() }}
                   </div>
                   <div class="form-outline mb-4">
-                      <input type="text" id="lname" class="form-control form-control-lg" />
-                      <label class="form-label" for="typeEmailX-2">Last Name</label>
+                      {{form.last_name()}}
                   </div>
                   <div class="form-outline mb-4">
-                      <input type="text" id="business_name" class="form-control form-control-lg" />
-                      <label class="form-label" for="typeEmailX-2">Business Name</label>
+                      {{ form.business_name() }}
                   </div>
                   <div class="form-outline mb-4">
-                      <input type="email" id="email" class="form-control form-control-lg" />
-                      <label class="form-label" for="typeEmailX-2">Email</label>
+                      {{ form.email() }}
                   </div>
                   <div class="form-outline mb-4">
-                      <input type="password" id="passwd" class="form-control form-control-lg" />
-                      <label class="form-label" for="typePasswordX-2">Password</label>
+                      {{form.password()}}
                   </div>
                   <div class="form-outline mb-4">
-                      <select class="form-control form-control-lg">
-                          <option value="contractor">Contractor</option>
-                          <option value="employer">Employer</option>
-                      </select>
+                      {{form.business_type}}
                       <label class="form-label" for="business_type">Select The Type of Business You Operate.</label>
                   </div>
-                  <div class="form-outline mb-4">
-                      <select class="form-control form-control-lg">
+                {{form.submit()}}
 
-                      </select>
-                  </div>
-                <input class="btn btn-primary btn-lg btn-block" type="submit"></input>
+                {{ form.hidden_tag()}}
           </form>
+              {% if form.errors: %}
+                    {% for field, errors in form.errors.items() %}
+                        {{ ','.join(errors) }}
+                    {% endfor %}
+              {% endif %}
             <hr class="my-4">'
             <label class="form-label"><a href={{ url_for('login') }}>Already Have An Account? Login In Here</a></label>
           </div>
