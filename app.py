@@ -78,6 +78,15 @@ def home():  # put application's code here
     return render_template('index.html', user_data=user_data)
 
 
+@app.route('/dashboard')
+def dashboard():  # put application's code here
+    user_data = UserInfo.query.all()
+    for user in user_data:
+        print(user.first_name)
+    debug = True
+    return render_template('about.html', user_data=user_data)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     from flask import request
