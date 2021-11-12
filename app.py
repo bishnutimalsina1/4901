@@ -1,7 +1,7 @@
 import bcrypt
 import flask_bcrypt
 from flask import render_template, url_for, redirect, flash, session
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, login_required, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -141,6 +141,11 @@ def login():
         return render_template('index.html')
     return render_template('login.html',form=form)
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run()
