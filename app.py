@@ -124,6 +124,7 @@ def register():
         flash(form.errors)
 
     return render_template('register.html', form=form)
+
 @login_manager.user_loader
 def load_user(id):
     return UserInfo.query.filter_by(id=id).first()
