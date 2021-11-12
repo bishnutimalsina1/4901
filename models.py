@@ -8,6 +8,7 @@ class UserInfo(db.Model):
     email = db.Column(db.VARCHAR(45), nullable=False)
     password = db.Column(db.VARCHAR(300), nullable=False)
     business = db.Column(db.Integer)
+    business_type = db.Column(db.Integer)
 
     def is_authenticated(self):
         return True
@@ -21,12 +22,13 @@ class UserInfo(db.Model):
     def get_id(self):
         return str(self.id)
 
-    def __init__(self, first_name, last_name, email, password, business):
+    def __init__(self, first_name, last_name, email, password, business, business_type):
         self.first_name = first_name or None
         self.last_name = last_name or None
         self.email = email or None
         self.password = password or None
         self.business = business or None
+        self.business_type = business_type or None
 
 
 class BusinessType(db.Model):

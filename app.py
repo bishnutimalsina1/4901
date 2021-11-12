@@ -45,7 +45,7 @@ class create_user_form(FlaskForm):
         render_kw={'class': 'register_input'})
 
     def validate_email(self, email):
-        user = Business.query.filter_by(email=email.data).first()
+        user = UserInfo.query.filter_by(email=email.data).first()
         debug=True
         if user:
             raise ValidationError(
@@ -110,15 +110,17 @@ def register():
                             description=None)
         db.session.add(business)
         db.session.commit()
-        business_id = db.engine.execute(f'select id from business where name in ("{form.business_name.data}"); ').fetchone()
+        business_id = db.engine.execute(f'select id,type from business where name in ("{form.business_name.data}") and type in ("{form.business_type.data}"); ').fetchone()
         print(business_id['id'])
         user = UserInfo(first_name=form.first_name.data,
                         last_name=form.last_name.data,
                         email=form.email.data,
                         password=passwd,
-                        business=business_id['id'])
+                        business=business_id['id'],
+                        business_type=business_id['type'])
         db.session.add(user)
         db.session.commit()
+        login_user(user)
         return redirect('/')
     else:
         flash(form.errors)
@@ -138,7 +140,7 @@ def login():
         user = UserInfo.query.filter_by(email=email).first()
         debug=True
         login_user(user)
-        return render_template('index.html')
+        return redirect('/')
     return render_template('login.html',form=form)
 
 @app.route("/logout")
