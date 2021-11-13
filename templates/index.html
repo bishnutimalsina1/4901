@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -30,17 +31,19 @@
                                 <li class="nav-item"><a class="nav-link" href={{ url_for('dashboard') }}>Business Dashboard</a></li>
                             {% endif %}
                             {% if current_user.is_authenticated %}
-                                <li class="nav-item"><a class="nav-link" href={{ url_for('logout') }}>Logout</a></li>
+                                <div class="nav-item dropdown">
+                                    <li class="nav-link dropdown-toggle" style="cursor: pointer" id="user_dropdown" data-bs-toggle="dropdown">
+                                        {{current_user.first_name}}
+                                        <span class="caret"></span>
+                                    </li>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href={{url_for('logout')}}>Logout</a>
+                                        <a class="dropdown-item" href={{url_for('home')}}>Profile</a>
+                                    </div>
+                                </div>
                             {% else %}}
-                                <li class="nav-item"><a class="nav-link" href={{ url_for('login') }}>Login</a></li>
+                                <li class="nav-item"><a class="nav-link" href={{url_for('login')}}>Login</a></li>
                             {% endif %}
-{#                            <li class="nav-item dropdown">#}
-{#                                <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>#}
-{#                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">#}
-{#                                    <li><a class="dropdown-item" href="blog-home.html">Blog Home</a></li>#}
-{#                                    <li><a class="dropdown-item" href="blog-post.html">Blog Post</a></li>#}
-{#                                </ul>#}
-{#                            </li>#}
 {#                            <li class="nav-item dropdown">#}
 {#                                <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>#}
 {#                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">#}

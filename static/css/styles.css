@@ -11404,11 +11404,12 @@ a[data-toggle="collapse"] {
 }
 
 .dropdown-toggle::after {
-  display: block;
+  display: inline-block;
   position: absolute;
   top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
+  right: 0px;
+  left: 100%;
+  /*transform: translateY(-50%);*/
 }
 
 ul ul a {
