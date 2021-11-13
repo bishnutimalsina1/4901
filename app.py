@@ -1,7 +1,7 @@
 import bcrypt
 import flask_bcrypt
 from flask import render_template, url_for, redirect, flash, session
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, login_required, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -45,7 +45,7 @@ class create_user_form(FlaskForm):
         render_kw={'class': 'register_input'})
 
     def validate_email(self, email):
-        user = Business.query.filter_by(email=email.data).first()
+        user = UserInfo.query.filter_by(email=email.data).first()
         debug=True
         if user:
             raise ValidationError(
@@ -84,7 +84,15 @@ def dashboard():  # put application's code here
     for user in user_data:
         print(user.first_name)
     debug = True
-    return render_template('about.html', user_data=user_data)
+    return render_template('dashboard.html', user_data=user_data)
+
+@app.route('/customer_dashboard')
+def customer_dashboard():  # put application's code here
+    user_data = UserInfo.query.all()
+    for user in user_data:
+        print(user.first_name)
+    debug = True
+    return render_template('customer_dashboard.html', user_data=user_data)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -110,20 +118,24 @@ def register():
                             description=None)
         db.session.add(business)
         db.session.commit()
-        business_id = db.engine.execute(f'select id from business where name in ("{form.business_name.data}"); ').fetchone()
+        business_id = db.engine.execute(f'select id,type from business where name in ("{form.business_name.data}") and type in ("{form.business_type.data}"); ').fetchone()
         print(business_id['id'])
         user = UserInfo(first_name=form.first_name.data,
                         last_name=form.last_name.data,
                         email=form.email.data,
                         password=passwd,
-                        business=business_id['id'])
+                        business=business_id['id'],
+                        business_type=business_id['type'])
         db.session.add(user)
         db.session.commit()
+        login_user(user)
+
         return redirect('/')
     else:
         flash(form.errors)
 
     return render_template('register.html', form=form)
+
 @login_manager.user_loader
 def load_user(id):
     return UserInfo.query.filter_by(id=id).first()
@@ -140,6 +152,11 @@ def login():
         return render_template('index.html')
     return render_template('login.html',form=form)
 
+@app.route("/logout")
+@login_required
+def logout():
+     logout_user()
+     return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run()

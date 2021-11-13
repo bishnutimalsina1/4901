@@ -1,54 +1,63 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<section >
-                <div class="container-fluid ps-md-0">
-                    <div class="row g-0">
-                      <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image" style="background-image: url('https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v980-aum-05-b-x.jpg?w=1200&h=1200&dpr=1&fit=clip&crop=default&fm=jpg&q=75&vib=3&con=3&usm=15&cs=srgb&bg=F4F4F3&ixlib=js-2.2.1&s=dc5c76a3df65a1e591c776330ae03b05')"></div>
-                      <div class="col-md-8 col-lg-6">
-                        <div class="px-5 py-4 ms-xl-4">
-                            <i class="bi bi-apple fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;">  <img src="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png" width="40" height="40" class="d-inline-block align" alt=""></i>
-                            <span class="h3 fw-bold mb-0">timely</span>
-                          </div>
-                        <div class="login d-flex align-items-center py-5" style="min-height: 100vh;">
+<section>
+    <div class="container-fluid ps-md-0">
+        <div class="row g-0">
+            <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"
+                 style="background-image: url('https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v980-aum-05-b-x.jpg?w=1200&h=1200&dpr=1&fit=clip&crop=default&fm=jpg&q=75&vib=3&con=3&usm=15&cs=srgb&bg=F4F4F3&ixlib=js-2.2.1&s=dc5c76a3df65a1e591c776330ae03b05')"></div>
+            <div class="col-md-8 col-lg-6">
+                <div class="px-5 py-4 ms-xl-4">
+                    <i class="bi bi-apple fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"> <img
+                            src="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png" width="40"
+                            height="40" class="d-inline-block align" alt=""></i>
+                    <span class="h3 fw-bold mb-0">timely</span>
+                </div>
+                <div class="login d-flex align-items-center py-5" style="min-height: 100vh;">
 
-                            <div class="container" >
+                    <div class="container">
 
-                            <div class="row px-5">
-                              <div class="col-md-9 col-lg-8 mx-auto" >
-                                  <div class="d-grid" >
+                        <div class="row px-5">
+                            <div class="col-md-9 col-lg-8 mx-auto">
+                                <div class="d-grid">
 
-                                      <h2 style="margin-left: auto; margin-right: auto;">Sign In to Timely</h2>
-                                    <h5 style="margin-left: auto; margin-right: auto;">New Here? <a href={{ url_for('register') }}>Create an Account</a></h5>
-                                  </div>
+                                    <h2 style="margin-left: auto; margin-right: auto;">Sign In to Timely</h2>
+                                    <h5 style="margin-left: auto; margin-right: auto;">New Here? <a href={{ url_for('register')
+                                        }}>Create an Account</a></h5>
+                                </div>
                                 <!-- Sign In Form -->
                                 <form class="register" enctype="multipart/form-data" method="post">
                                     <div class="form-outline mb-4">
-                                      {{ form.email }}
+                                        {{ form.email }}
                                     </div>
 
                                     <div class="form-outline mb-4">
                                         {{form.password}}
                                     </div>
-                                     <div class="d-grid mb-5 " style="width: 50%; margin-left: auto; margin-right: auto;">
-                                    <!-- Checkbox -->
-                                    {{ form.submit }}
-                                    {{ form.hidden_tag() }}
-                                     </div>
+                                    <div class="d-grid mb-5 bg-body"
+                                         style="width: 50%; margin-left: auto; margin-right: auto;">
+                                        <!-- Checkbox -->
+                                            {{ form.submit }}
+                                            {{ form.hidden_tag() }}
+
+                                    </div>
                                 </form>
-                                   {% if form.errors: %}
-                                        {% for field, errors in form.errors.items() %}
-                                            {{ ','.join(errors) }}
-                                        {% endfor %}
-                                  {% endif %}
+                                {% if form.errors: %}
+                                {% for field, errors in form.errors.items() %}
+                                {{ ','.join(errors) }}
+                                {% endfor %}
+                                {% endif %}
                                 <hr class="my-4">
-                                <label class="form-label"><a href={{ url_for('register') }}>Don't Have An Account? Sign Up Here.</a></label>
-                              </div>
+
+                                <label class="form-label mx-5"><a href={{ url_for('register') }}>Don't Have An Account?
+                                    Sign Up Here.</a></label>
+
                             </div>
-                          </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
-            </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
