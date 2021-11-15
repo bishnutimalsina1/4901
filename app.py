@@ -129,7 +129,6 @@ def register():
         db.session.add(user)
         db.session.commit()
         login_user(user)
-
         return redirect('/')
     else:
         flash(form.errors)
