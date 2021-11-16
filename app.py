@@ -69,6 +69,9 @@ class loginForm(FlaskForm):
         else:
             raise ValidationError('Incorrect Username or Password')
 
+class profileForm(FlaskForm):
+    business = ''
+
 @app.route('/')
 def home():  # put application's code here
     user_data = UserInfo.query.all()
@@ -99,11 +102,15 @@ def user_profile(id):
     debug=True
     if id != session['_user_id']:
         return redirect(url_for('home'))
-    user_data = UserProfile.query.filter_by(user_id=id).first()
+    user_data = dict(db.engine.execute(f'''select * from user_profile up
+                                    join user_info ui on ui.id = up.user_id
+                                    join business b on b.id = up.business   
+                                    where up.user_id in("{id}"); ''').fetchone())
     # if not user_data:
     #     return redirect(url_for('home'))
     # current_id= user_data.id
     return render_template('profile.html',user_data=user_data)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     from flask import request
@@ -135,7 +142,13 @@ def register():
                         password=passwd,
                         business=business_id['id'],
                         business_type=business_id['type'])
+
         db.session.add(user)
+        db.session.commit()
+        user_id = db.engine.execute(f'select id from user_info where email in ("{form.email.data}");').fetchone()
+        user_profile=UserProfile(user_id=user_id['id'],
+                                 business=business_id['id'])
+        db.session.add(user_profile)
         db.session.commit()
         login_user(user)
         return redirect('/')

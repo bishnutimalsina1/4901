@@ -75,23 +75,22 @@ class UserProfile(db.Model):
     skills_description = db.Column(db.VARCHAR)
     profile_picture_path = db.Column(db.VARCHAR)
 
-    def __init__(self, id, user_id, business, user_description, salary, pay_frequency, experience_years,
-                 employment_type,
-                 phone, city, state, twitter_link, facebook_link, website_link, skills_description,
-                 profile_picture_path):
-        self.id = id or None
-        self.user_id = user_id or None
-        self.business = business or None
-        self.user_description = user_description or None
-        self.salary = salary or None
-        self.pay_frequency = pay_frequency or None
-        self.experience_years = experience_years or None
-        self.employment_type = employment_type or None
-        self.phone = phone or None
-        self.city = city or None
-        self.state = state or None
-        self.twitter_link = twitter_link or None
-        self.facebook_link = facebook_link or None
-        self.website_link = website_link or None
-        self.skills_description = skills_description or None
-        self.profile_picture_path = profile_picture_path or None
+    def __init__(self, user_id=None, business=None, user_description=None, salary=None, pay_frequency=None, experience_years=None,
+                 employment_type=None,
+                 phone=None, city=None, state=None, twitter_link=None, facebook_link=None, website_link=None, skills_description=None,
+                 profile_picture_path=None):
+        self.user_id = user_id
+        self.business = business
+        self.user_description = user_description
+        self.salary = salary
+        self.pay_frequency = pay_frequency
+        self.experience_years = experience_years
+        self.employment_type = employment_type
+        self.phone = phone
+        self.city = city
+        self.state = state
+        self.twitter_link = twitter_link
+        self.facebook_link = facebook_link
+        self.website_link = website_link
+        self.skills_description = skills_description
+        self.profile_picture_path = profile_picture_path
