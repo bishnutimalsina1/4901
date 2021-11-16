@@ -259,5 +259,10 @@
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
     {% block addl_scripts%}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.home').attr('style','font-weight: bold')
+            })
+        </script>
     {% endblock %}
 </html>
