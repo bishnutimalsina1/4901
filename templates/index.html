@@ -11,16 +11,17 @@
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="static/css/styles.css" rel="stylesheet" />
+        <link href={{url_for('static',filename='css/styles.css')}} rel="stylesheet" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     </head>
-    {% block content %}
+
     <body class="d-flex flex-column h-100">
         <main class="flex-shrink-0">
             <!-- Navigation-->
+            {% block nav %}
             <nav class="navbar navbar-expand-lg navbar-dark bg-body">
                 <div class="container px-5">
                     <a class="navbar-brand fw-bolder" style="color: rgb(0, 11, 76); font-size: 2rem; font-weight: 400;" href={{ url_for('home') }}>
@@ -31,15 +32,24 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                            <li class="nav-item"><a class="nav-link home" href={{url_for('home')}}>Home</a></li>
+                            <li class="nav-item"><a class="nav-link about" href="about.html">About</a></li>
                             <!-- updated some logic-->
-                            {% if current_user.is_authenticated and current_user.business_type == 1 %}
-                                <li class="nav-item"><a class="nav-link" href={{ url_for('dashboard') }}>Contractor Dashboard</a></li>
-                                <li class="nav-item"><a class=" btn btn-dark btn px-4 me-sm-3" href={{ url_for('logout') }}>Logout</a></li>
-                            {% elif current_user.is_authenticated or current_user.business_type == 2 %}
-                                 <li class="nav-item"><a class="nav-link" href={{ url_for('customer_dashboard') }}>Customer Dashboard</a></li>
-                                <li class="nav-item"><a class=" btn btn-dark btn px-4 me-sm-3" href={{ url_for('logout') }}>Logout</a></li>
+                            {% if current_user.is_authenticated %}
+                                {% if current_user.business_type == 1 %}
+                                    <li class="nav-item contractor_dash"><a class="nav-link" href={{ url_for('dashboard') }}>Contractor Dashboard</a></li>
+                                {% elif current_user.business_type == 2 %}
+                                 <li class="nav-item"><a class="nav-link customer_dash" href={{ url_for('customer_dashboard') }}>Customer Dashboard</a></li>
+                                {% endif %}
+                                <div class="nav-item dropdown">
+                                    <li class="nav-link dropdown-toggle user" style="cursor: pointer" id="user_dropdown" data-bs-toggle="dropdown">
+                                        {{current_user.first_name}}
+                                    </li>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href={{url_for('logout')}}>Logout</a>
+                                        <a class="dropdown-item" href={{url_for('user_profile', id=current_user.id)}}>Profile</a>
+                                    </div>
+                                </div>
                             {% else %}
                                  <li class="nav-item"><a class="nav-link" href={{ url_for('login') }}>My Dashboard</a></li>
                                  <li class="nav-item"><a class=" btn btn-dark btn px-4 me-sm-3" href={{ url_for('login') }}>Login</a></li>
@@ -50,7 +60,8 @@
                     </div>
                 </div>
             </nav>
-
+            {% endblock %}
+            {% block content %}
             <!-- Header-->
             <header class="bg-body py-5">
             <div class="container px-5">
@@ -215,8 +226,9 @@
                 </div>
             </div>
         </div>
+        </main>
             <!-- Testimonial section end-->
-{% endblock %}
+        {% endblock %}
 
         {% block footer %}
         <!-- Footer-->
@@ -235,9 +247,17 @@
             </div>
         </footer>
         {% endblock %}
-        <!-- Bootstrap core JS-->
+
+
+    </body>
+    <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="static/js/scripts.js"></script>
-    </body>
+        <script src="{{url_for('static', filename='js/scripts.js') }}"></script>
+        <!-- jQuery CDN - Slim version (=without AJAX) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    {% block addl_scripts%}
+    {% endblock %}
 </html>

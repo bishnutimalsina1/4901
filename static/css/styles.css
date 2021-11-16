@@ -3567,7 +3567,7 @@ textarea.form-control-lg {
 }
 .dropdown-toggle::after {
   display: inline-block;
-  margin-left: 0.255em;
+  margin-left: 0.155em;
   vertical-align: 0.255em;
   content: "";
   border-top: 0.3em solid;
@@ -11473,7 +11473,7 @@ a[data-toggle="collapse"] {
   display: block;
   position: absolute;
   top: 50%;
-  right: 20px;
+  left: 4.5em;
   transform: translateY(-50%);
 }
 

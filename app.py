@@ -94,7 +94,16 @@ def customer_dashboard():  # put application's code here
     debug = True
     return render_template('customer_dashboard.html', user_data=user_data)
 
-
+@app.route('/user_profile/<id>')
+def user_profile(id):
+    debug=True
+    if id != session['_user_id']:
+        return redirect(url_for('home'))
+    user_data = UserProfile.query.filter_by(user_id=id).first()
+    # if not user_data:
+    #     return redirect(url_for('home'))
+    # current_id= user_data.id
+    return render_template('profile.html',user_data=user_data)
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     from flask import request

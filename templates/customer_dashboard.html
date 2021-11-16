@@ -1,6 +1,4 @@
 {% extends 'index.html' %}
-
-{% block content %}
 <head>
     <meta charset="utf-8"/>
     <meta
@@ -23,6 +21,7 @@
 </head>
 <body class="d-flex flex-column h-100">
 <!-- modal template start -->
+{% block content %}
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -164,13 +163,13 @@
             <nav id="sidebar">
                 <div class="sidebar-header">
                     <!-- Image and text -->
-                    <nav class="navbar navbar-light bg-body">
-                        <a class="navbar-brand" href={{ url_for('home') }} style="font-size: 3em; ">
-                            <img src="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png" width="70"
-                                height="70" class="d-inline-block align" alt="">
-                            timely
-                        </a>
-                    </nav>
+<!--                    <nav class="navbar navbar-light bg-body">-->
+<!--                        <a class="navbar-brand" href={{ url_for('home') }} style="font-size: 3em; ">-->
+<!--                            <img src="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png" width="70"-->
+<!--                                height="70" class="d-inline-block align" alt="">-->
+<!--                            timely-->
+<!--                        </a>-->
+<!--                    </nav>-->
                 </div>
 
                 <ul class="list-unstyled components">
@@ -225,17 +224,17 @@
                                     <span class="form-control-feedback"></span>
                                     <input type="text" class="form-control" placeholder="Search"></input>
                                 </div>
-                                <li class="nav-item" style="margin-right: 2em;">
-                                    <a class="nav-link" href="#">Link2</a>
-                                </li>
-                                <li class="nav-item" style="margin-right: 2em;">
-                                    <a class="nav-link" href="#">Link2</a>
-                                </li>
-                                 {% if current_user.is_authenticated %}
-                                 <li class="nav-item"><a class=" btn btn-dark btn px-4 me-sm-3" href={{ url_for('logout') }}>Logout</a></li>
-                             {% else %}
-                                 <li class="nav-item"><a class=" btn btn-dark btn px-4 me-sm-3" href={{ url_for('login') }}>Login</a></li>
-                             {% endif %}
+<!--                                <li class="nav-item" style="margin-right: 2em;">-->
+<!--                                    <a class="nav-link" href="#">Link2</a>-->
+<!--                                </li>-->
+<!--                                <li class="nav-item" style="margin-right: 2em;">-->
+<!--                                    <a class="nav-link" href="#">Link2</a>-->
+<!--                                </li>-->
+<!--                                 {% if current_user.is_authenticated %}-->
+<!--                                 <li class="nav-item"><a class=" btn btn-dark btn px-4 me-sm-3" href={{ url_for('logout') }}>Logout</a></li>-->
+<!--                             {% else %}-->
+<!--                                 <li class="nav-item"><a class=" btn btn-dark btn px-4 me-sm-3" href={{ url_for('login') }}>Login</a></li>-->
+<!--                             {% endif %}-->
                             </ul>
                         </div>
                     </div>
@@ -528,6 +527,7 @@
                     $('#sidebar').toggleClass('active');
                     $('')
                 });
+                $('.customer_dash').attr('style','font-weight: bold');
             });
             $("#heart").click(function () {
                 if ($("#heart").hasClass("liked")) {
