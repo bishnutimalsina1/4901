@@ -117,6 +117,7 @@ def home():  # put application's code here
 
 
 @app.route('/dashboard')
+@login_required
 def dashboard():  # put application's code here
     user_data = UserInfo.query.all()
     for user in user_data:
@@ -126,6 +127,7 @@ def dashboard():  # put application's code here
 
 
 @app.route('/customer_dashboard')
+@login_required
 def customer_dashboard():  # put application's code here
     user_data = db.engine.execute(f'''select * from user_profile up
                                        join user_info ui on ui.id = up.user_id
@@ -137,6 +139,7 @@ def customer_dashboard():  # put application's code here
 
 
 @app.route('/user_profile/<id>', methods=['GET', 'POST'])
+@login_required
 def user_profile(id):
     debug = True
     if id != session['_user_id']:
