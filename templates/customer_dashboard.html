@@ -22,12 +22,13 @@
 <body class="d-flex flex-column h-100">
 <!-- modal template start -->
 {% block content %}
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+{% for user in user_data %}
+<div class="modal fade" id="{{user['user_id']}}Modal" tabindex="-1" role="dialog" aria-labelledby="{{user['user_id']}}ModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Business Profile</h5>
+                <h5 class="modal-title" id="{{user['user_id']}}ModalLabel">Business Profile</h5>
                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal"><i
                         class="bi bi-x-lg"></i></button>
 
@@ -43,7 +44,7 @@
                                     <i class="bi bi-currency-dollar" style="font-size: 1.5rem;"></i>
                                 </div>
                                 <div class="col-md-10">
-                                    <h6 class="display-7">$45/Hr</h6>
+                                    <h6 class="display-7">{{user['salary'] if user['salary'] else 'N/A'}}/Hr</h6>
                                     <p class="text-muted" style="margin-top: -10px;">Salary Expectations</p>
                                 </div>
                             </div>
@@ -61,7 +62,7 @@
                                     <i class="bi bi-calendar3" style="font-size: 1.5rem;"></i>
                                 </div>
                                 <div class="col-md-10">
-                                    <h6 class="display-7">8 Years</h6>
+                                    <h6 class="display-7">{{user['experience_years'] if user['experience_years'] else 'N/A'}} Years</h6>
                                     <p class="text-muted" style="margin-top: -10px;">Work Experience</p>
                                 </div>
                             </div>
@@ -70,7 +71,7 @@
                                     <i class="bi bi-briefcase" style="font-size: 1.5rem;"></i>
                                 </div>
                                 <div class="col-md-10">
-                                    <h6 class="display-7">Full-Time, Part-Time</h6>
+                                    <h6 class="display-7">{{user['employment_type'] if user['employment_type'] else 'N/A'}}</h6>
                                     <p class="text-muted" style="margin-top: -10px;">Employment Type</p>
                                 </div>
                             </div>
@@ -79,20 +80,20 @@
                                 <div class="col-md-12">
                                     <h5 class="text-muted" class="my-1">Contacts</h5>
                                     <i class="bi bi-telephone-inbound mx-1"></i>
-                                    <a href=""> 469-901-3434</a>
+                                    <a href=""> {{user['phone'] if user['phone'] else 'N/A'}}</a>
                                     <br>
                                     <i class="bi bi-geo-alt mx-1"></i>
-                                    <a href=""> Dallas, TX</a>
+                                    <a href=""> {{user['city'] if user['city'] else 'N/A'}}, {{user['state'] if user['state'] else 'N/A'}}</a>
                                     <br>
                                     <i class="bi bi-envelope mx-1"></i>
-                                    <a href="">timcena@gmail.com</a>
+                                    <a href="">{{user['email'] if user['email'] else 'N/A'}}</a>
                                 </div>
                                 <hr style="margin-top:2em;">
                             </div>
                             <div class="row" style="margin-left: 0.5em;">
                                 <div class="col-md-12">
                                     <h5 class="text-muted" class="my-1">Socials</h5>
-                                    <a href="#" class="bi bi-facebook mx-3"></a>
+                                    <a href="{{user['facebook_link'] if user['facebook_link'] else '#'}}" class="bi bi-facebook mx-3"></a>
                                     <a href="#" class="bi bi-twitter mx-3"></a>
                                     <a href="#" class="bi bi-youtube mx-3"></a>
                                     <a href="#" class="bi bi-instagram mx-3"></a>
@@ -106,7 +107,7 @@
                             <div class="row">
                                 <div class="col-md-6 col-sm-6">
                                     <h4>
-                                        Erik Dawson
+                                        {{user['first_name'] if user['first_name'] else 'N/A'}} {{user['last_name'] if user['last_name']}}
                                     </h4>
                                 </div>
                             </div>
@@ -120,16 +121,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="text-muted">
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                        Lorem Ipsum has been the industry's standard dummy text ever since the
-                                        1500s, when an unknown printer took a galley of type and scrambled it to
-                                        make a type specimen book. It has survived not only five centuries, but also
-                                        the leap into electronic typesetting, remaining essentially unchanged.
-                                    </p>
-                                    <p class="text-muted">
-                                        It was popularised in the 1960s with the release of Letraset sheets
-                                        containing Lorem Ipsum passages, and more recently with desktop publishing
-                                        software like Aldus PageMaker including versions of Lorem Ipsum.
+                                       {{user['user_description'] if user['user_description'] else ''}}
                                     </p>
                                 </div>
                             </div>
@@ -138,7 +130,7 @@
                                 <div class="col-md-12">
                                     <h5>Skills</h5>
                                     <p class="text-muted">
-                                        Plumbing, Reinforcement, Cooling, Solar, etc.
+                                       {{user['skills_description']  if user['skills_description'] else 'N/A'}}
                                     </p>
                                 </div>
                             </div>
@@ -155,6 +147,7 @@
         </div>
     </div>
 </div>
+{% endfor %}
 <!-- modal template end -->
 <!--main section start-->
 <main class="flex-shrink-0">
@@ -259,6 +252,7 @@
 
                 <div class="container overflow-auto py-1 px-4" style="height: 80vh;">
                     <div class="row" style="padding-bottom: 3em;">
+                        {% for user in user_data %}
                         <div class="col-sm">
                             <!-- deck start -->
                             <div style="height: 25em;">
@@ -278,7 +272,7 @@
                                                 class="img-fluid" style="width: 40%; margin: 2em; border-radius: 25px;"
                                                 alt="...">
                                         </div>
-                                        <h5 class="card-title">Sara Jefferson</h5>
+                                        <h5 class="card-title">{{user['first_name'] if user['first_name'] else 'N/A'}} {{user['last_name'] if user['last_name'] else 'N/A'}}</h5>
                                         <p class="card-subtitle mb-2 text-muted mb-4">Individual Developer</p>
                                         <div style="width: 100%; margin-bottom: 2em;">
                                             <a href="#" class="btn btn-lg btn-outline-primary"
@@ -290,15 +284,16 @@
                                         <!-- Large modal -->
                                         <button type="button" class="btn"
                                             style="color: rgb(91, 92, 250); font-size: larger; " data-toggle="modal"
-                                            data-target="#exampleModal"><i class="bi bi-person"></i> View
+                                            data-target="#{{user['user_id']}}Modal"><i class="bi bi-person"></i> View
                                             Profile</button>
-                                        <p class="card-text">$45 /hr&nbsp; Austin, TX</p>
+                                        <p class="card-text">${{user['salary'] if user['salary'] else '' }}/hr {{user['city'] if user['city'] else ''}}, {{user['state'] if user['state'] else '' }}</p>
 
                                     </div>
                                 </div>
                             </div>
                             <!-- deck end -->
                         </div>
+                        {% endfor %}
                         <div class="col-sm">
                             <!-- deck start -->
                             <div style="height: 30em; ">

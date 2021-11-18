@@ -43,14 +43,14 @@ class BusinessType(db.Model):
 
 class Business(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.VARCHAR)
-    phone = db.Column(db.VARCHAR)
+    business_name = db.Column(db.VARCHAR)
+    business_phone = db.Column(db.VARCHAR)
     email = db.Column(db.VARCHAR)
     description = db.Column(db.VARCHAR)
     type = db.Column(db.VARCHAR)
 
-    def __init__(self, name, phone, email, description, type):
-        self.name = name or None
+    def __init__(self, business_name, phone, email, description, type):
+        self.business_name = business_name or None
         self.phone = phone or None
         self.email = email or None
         self.description = description or None

@@ -1,11 +1,16 @@
 {% extends 'index.html' %}
 
 {% block content%}
-
-<p>{{user_data['first_name']}}</p>
-<p>{{user_data['last_name']}}</p>
-<p>{{user_data['business_name']}}</p>
-
+<form enctype="multipart/form-data" method="post">
+    {% if contractor_form %}
+        {%for field in contractor_form%}
+            {% if field.name != 'submit' and field.name != 'csrf_token' %}
+                {{field.label if field.label else None}}
+            {% endif %}
+            {{field if field else None}}
+        {%endfor%}
+    {%endif%}
+</form>
 {% endblock %}
 
 {% block addl_scripts%}
