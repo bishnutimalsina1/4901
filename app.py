@@ -1,15 +1,19 @@
 import bcrypt
 import flask_bcrypt
-from flask import render_template, url_for, redirect, flash, session
+from flask import render_template, url_for, redirect, flash, session, request, send_from_directory
 from flask_login import LoginManager, login_user, login_required, logout_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, DecimalField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, DecimalField, FileField
 from wtforms.validators import InputRequired, Length, ValidationError, Optional
+import time
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
 import pymysql
+from werkzeug.utils import secure_filename
 from __init__ import create_app
+import os
+from uuid import uuid4
 from models import *
 
 app = create_app('dev')
@@ -102,6 +106,8 @@ class contractorProfileForm(FlaskForm):
         render_kw={'class': 'form-control form-control-lg'})
     website_link = StringField(
         render_kw={'class': 'form-control form-control-lg'})
+    profile_picture = FileField(
+        render_kw={'class': 'form-control form-control-lg'})
     submit = SubmitField(
         "Update"
     )
@@ -134,9 +140,15 @@ def customer_dashboard():  # put application's code here
                                        join business b on b.id = up.business
                                        where business_type = 1;''').fetchall()
     user_data = [dict(u) for u in user_data]
+    for user in user_data:
+        if user['profile_picture_path']:
+            user['profile_pic'] = os.path.join(app.config['UPLOAD_FOLDER'], user['profile_picture_path'])
     debug = True
     return render_template('customer_dashboard.html', user_data=user_data)
 
+@app.route('/profile_pics/<filename>')
+def serve_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 @app.route('/user_profile/<id>', methods=['GET', 'POST'])
 @login_required
@@ -167,22 +179,49 @@ def user_profile(id):
             website_link = contractor_form.website_link.data
             user_description = contractor_form.user_description.data
             experience = contractor_form.experience.data
+            profile_picture = contractor_form.profile_picture.data
+            file_ext = uuid4().__str__()
+            file = request.files['profile_picture']
+            if file.filename == '':
+                profile_update = UserProfile.query.filter_by(user_id=id).update(
+                    dict(user_description=user_description,
+                         salary=salary,
+                         experience_years=experience,
+                         employment_type=employment_type,
+                         phone=phone,
+                         city=city,
+                         state=state,
+                         twitter_link=twitter_link,
+                         facebook_link=facebook_link,
+                         website_link=website_link,
+                         skills_description=skills_description))
+            else:
+                filename = secure_filename(file.filename)
+                unique_filename = f'{file_ext}_{filename}'
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
+                profile_update = UserProfile.query.filter_by(user_id=id).update(
+                    dict(user_description=user_description,
+                         salary=salary,
+                         experience_years=experience,
+                         employment_type=employment_type,
+                         phone=phone,
+                         city=city,
+                         state=state,
+                         twitter_link=twitter_link,
+                         facebook_link=facebook_link,
+                         website_link=website_link,
+                         skills_description=skills_description,
+                         profile_picture_path=unique_filename if 'profile_picture' in request.files else None,
+                         profile_picture_filename=filename if 'profile_picture' in request.files else None))
 
-            profile_update = UserProfile.query.filter_by(user_id=id).update(dict(user_description=user_description,
-                                                                            salary=salary,
-                                                                            experience_years=experience,
-                                                                            employment_type=employment_type,
-                                                                            phone=phone,
-                                                                            city=city,
-                                                                            state=state,
-                                                                            twitter_link=twitter_link,
-                                                                            facebook_link=facebook_link,
-                                                                            website_link=website_link,
-                                                                            skills_description=skills_description))
             user_update = UserInfo.query.filter_by(id=id).update(dict(first_name=first_name,
                                                                  last_name=last_name,
                                                                  email=email))
             db.session.commit()
+        user_data = dict(db.engine.execute(f'''select * from user_profile up
+                                           join user_info ui on ui.id = up.user_id
+                                           join business b on b.id = up.business   
+                                           where up.user_id in("{id}"); ''').fetchone())
         print(contractor_form.errors)
         ## set form data to pre-existing data if exists
         contractor_form.email.data = user_data['email'] if user_data['email'] else None
@@ -199,6 +238,7 @@ def user_profile(id):
         contractor_form.last_name.data = user_data['last_name'] if user_data['last_name'] else None
         contractor_form.website_link.data = user_data['website_link'] if user_data['website_link'] else None
         contractor_form.user_description.data = user_data['user_description'] if user_data['user_description'] else None
+        contractor_form.profile_picture.data = user_data['profile_picture_path'] if user_data['profile_picture_path'] else None
 
     elif user_data['business_type'] == 2:
         contractor_form=None

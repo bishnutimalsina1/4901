@@ -37,8 +37,8 @@
                 <div class="container-fluid" style="background-color: rgb(247, 247, 247);">
                     <div class="row">
                         <div class="col-md-5 col-sm-12 ml-auto">
-                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg"
-                                 class="img-fluid" style="width:80%; margin: 1em; border-radius: 15px;" alt="...">
+                            <img src="{{url_for('serve_file',filename=user['profile_picture_path']) if user['profile_picture_path'] else 'https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg'}}"
+                                 class="img-fluid" style="width:80%; margin: 1em; border-radius: 15px;" alt="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg">
                             <div class="row" style="margin-left: 0.5em;">
                                 <div class="col-md-2">
                                     <i class="bi bi-currency-dollar" style="font-size: 1.5rem;"></i>
@@ -223,7 +223,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="text-center">
-                                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg"
+                                            <img src="{{url_for('serve_file',filename=user['profile_picture_path']) if user['profile_picture_path'] else 'https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg'}}"
                                                 class="img-fluid" style="width: 40%; margin: 2em; border-radius: 25px;"
                                                 alt="...">
                                         </div>

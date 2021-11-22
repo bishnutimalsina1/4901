@@ -74,11 +74,14 @@ class UserProfile(db.Model):
     website_link = db.Column(db.VARCHAR)
     skills_description = db.Column(db.VARCHAR)
     profile_picture_path = db.Column(db.VARCHAR)
+    profile_picture_filename = db.Column(db.VARCHAR)
 
-    def __init__(self, user_id=None, business=None, user_description=None, salary=None, pay_frequency=None, experience_years=None,
+    def __init__(self, user_id=None, business=None, user_description=None, salary=None, pay_frequency=None,
+                 experience_years=None,
                  employment_type=None,
-                 phone=None, city=None, state=None, twitter_link=None, facebook_link=None, website_link=None, skills_description=None,
-                 profile_picture_path=None):
+                 phone=None, city=None, state=None, twitter_link=None, facebook_link=None, website_link=None,
+                 skills_description=None,
+                 profile_picture_path=None, profile_picture_filename=None):
         self.user_id = user_id
         self.business = business
         self.user_description = user_description
@@ -94,3 +97,4 @@ class UserProfile(db.Model):
         self.website_link = website_link
         self.skills_description = skills_description
         self.profile_picture_path = profile_picture_path
+        self.profile_picture_filename = profile_picture_filename
