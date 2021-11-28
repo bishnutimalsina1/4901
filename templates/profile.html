@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+
+{% block content%}
+<div class="container px-5">
+    <form enctype="multipart/form-data" method="post">
+        {% if contractor_form %}
+            {%for field in contractor_form%}
+                {% if field.name != 'submit' and field.name != 'csrf_token' %}
+                    {{field.label if field.label else None}}
+                {% endif %}
+                {{field if field else None}}
+                {% if field.name == 'profile_picture' %}
+                    <img src ="{{url_for('serve_file',filename=field.data) if field.data else None}}" style="width:25%; display: block; padding: 20px">
+                {% endif %}
+            {%endfor%}
+        {%endif%}
+    </form>
+</div>
+{% endblock %}
+
+{% block addl_scripts%}
+<script type="text/javascript">
+     $(document).ready(function () {
+         $('.user').attr('style', 'font-weight: bold; cursor: pointer');
+
+     });
+</script>
+{%endblock%}
