@@ -154,8 +154,8 @@ def serve_file(filename):
 @login_required
 def user_profile(id):
     debug = True
-    if id != session['_user_id']:
-        return redirect(url_for('home'))
+    # if id != session['_user_id']:
+    #     return redirect(url_for('home'))
     user_data = dict(db.engine.execute(f'''select * from user_profile up
                                     join user_info ui on ui.id = up.user_id
                                     join business b on b.id = up.business   

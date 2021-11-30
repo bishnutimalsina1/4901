@@ -98,3 +98,4 @@ class UserProfile(db.Model):
         self.skills_description = skills_description
         self.profile_picture_path = profile_picture_path
         self.profile_picture_filename = profile_picture_filename
+        self.profile_picture_filename = profile_picture_filename

@@ -22,7 +22,7 @@
         <main class="flex-shrink-0">
             <!-- Navigation-->
             {% block nav %}
-            <nav class="navbar navbar-expand-lg navbar-dark bg-body">
+            <nav class="navbar navbar-expand-lg navbar-light bg-body">
                 <div class="container px-5">
                     <a class="navbar-brand fw-bolder" style="color: rgb(0, 11, 76); font-size: 2rem; font-weight: 400;" href={{ url_for('home') }}>
                     <img src="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png" width="50" height="50"
@@ -42,7 +42,7 @@
                                  <li class="nav-item"><a class="nav-link customer_dash" href={{ url_for('customer_dashboard') }}>Customer Dashboard</a></li>
                                 {% endif %}
                                 <div class="nav-item dropdown">
-                                    <li class="nav-link  user btn btn-dark btn px-4 me-sm-3" style="cursor: pointer; color:white;" id="" data-bs-toggle="dropdown">
+                                    <li class="nav-link  user btn btn-dark btn px-4 me-sm-3 text-white" style="color:white;" id="" data-bs-toggle="dropdown">
                                       <i class="bi bi-person-fill"></i>&nbsp;{{current_user.first_name}}&nbsp;<i class="bi bi-chevron-down"></i>
                                     </li>
                                     <div  style="margin-left:4px;" class="dropdown-menu">
@@ -52,7 +52,7 @@
                                 </div>
                             {% else %}
                                  <li class="nav-item"><a class="nav-link" href={{ url_for('login') }}>My Dashboard</a></li>
-                                 <li class="nav-item"><a class=" btn btn-dark btn px-4 me-sm-3" href={{ url_for('login') }}>Login</a></li>
+                                 <li style="cursor: pointer; color:white;" class="nav-item"><a class=" btn btn-dark btn px-4 me-sm-3" href={{ url_for('login') }}>Login</a></li>
                             {% endif %}
 
 
