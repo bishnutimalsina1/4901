@@ -1,0 +1,499 @@
+{% extends 'index.html' %}
+<head>
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Timely</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png"/>
+    <!-- Bootstrap icons-->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body class="d-flex flex-column h-100">
+<!-- modal template start -->
+{% block content %}
+{% for user in user_data %}
+<div class="modal fade" id="{{user['user_id']}}Modal" tabindex="-1" role="dialog" aria-labelledby="{{user['user_id']}}ModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="{{user['user_id']}}ModalLabel">Business Profile</h5>
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal"><i
+                        class="bi bi-x-lg"></i></button>
+
+            </div>
+            <div class="modal-body" style="padding:0;">
+                <div class="container-fluid" style="background-color: rgb(247, 247, 247);">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-12 ml-auto">
+                            <img src="{{url_for('serve_file',filename=user['profile_picture_path']) if user['profile_picture_path'] else 'https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg'}}"
+                                 class="img-fluid" style="width:80%; margin: 1em; border-radius: 15px;" alt="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg">
+                            <div class="row" style="margin-left: 0.5em;">
+                                <div class="col-md-2">
+                                    <i class="bi bi-currency-dollar" style="font-size: 1.5rem;"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h6 class="display-7">{{user['salary'] if user['salary'] else 'N/A'}}/Hr</h6>
+                                    <p class="text-muted" style="margin-top: -10px;">Salary Expectations</p>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-left: 0.5em;">
+                                <div class="col-md-2">
+                                    <i class="bi bi-arrow-down-up" style="font-size: 1.5rem;"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h6 class="display-7">High</h6>
+                                    <p class="text-muted" style="margin-top: -10px;">Seniority Level</p>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-left: 0.5em;">
+                                <div class="col-md-2">
+                                    <i class="bi bi-calendar3" style="font-size: 1.5rem;"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h6 class="display-7">{{user['experience_years'] if user['experience_years'] else 'N/A'}} Years</h6>
+                                    <p class="text-muted" style="margin-top: -10px;">Work Experience</p>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-left: 0.5em;">
+                                <div class="col-md-2">
+                                    <i class="bi bi-briefcase" style="font-size: 1.5rem;"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h6 class="display-7">{{user['employment_type'] if user['employment_type'] else 'N/A'}}</h6>
+                                    <p class="text-muted" style="margin-top: -10px;">Employment Type</p>
+                                </div>
+                            </div>
+                            <hr style="margin-bottom:2em;">
+                            <div class="row" style="margin-left: 0.5em;">
+                                <div class="col-md-12">
+                                    <h5 class="text-muted" class="my-1">Contacts</h5>
+                                    <i class="bi bi-telephone-inbound mx-1"></i>
+                                    <a href=""> {{user['phone'] if user['phone'] else 'N/A'}}</a>
+                                    <br>
+                                    <i class="bi bi-geo-alt mx-1"></i>
+                                    <a href=""> {{user['city'] if user['city'] else 'N/A'}}, {{user['state'] if user['state'] else 'N/A'}}</a>
+                                    <br>
+                                    <i class="bi bi-envelope mx-1"></i>
+                                    <a href="">{{user['email'] if user['email'] else 'N/A'}}</a>
+                                </div>
+                                <hr style="margin-top:2em;">
+                            </div>
+                            <div class="row" style="margin-left: 0.5em;">
+                                <div class="col-md-12">
+                                    <h5 class="text-muted" class="my-1">Socials</h5>
+                                    <a href="{{user['facebook_link'] if user['facebook_link'] else '#'}}" class="bi bi-facebook mx-3"></a>
+                                    <a href="#" class="bi bi-twitter mx-3"></a>
+                                    <a href="#" class="bi bi-youtube mx-3"></a>
+                                    <a href="#" class="bi bi-instagram mx-3"></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-sm-12 ml-auto"
+                             style="background-color: white; padding: 3em; box-shadow: -5px 0px 10px 1px #aaaaaa33;">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h4>
+                                        {{user['first_name'] if user['first_name'] else 'N/A'}} {{user['last_name'] if user['last_name']}}
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <p class="text-muted">
+                                        Individual Contractor
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="text-muted">
+                                       {{user['user_description'] if user['user_description'] else ''}}
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>Skills</h5>
+                                    <p class="text-muted">
+                                       {{user['skills_description']  if user['skills_description'] else 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Hire</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!-- modal template end -->
+<!--main section start-->
+<main class="flex-shrink-0">
+        <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <!-- Image and text -->
+<!--                    <nav class="navbar navbar-light bg-body">-->
+<!--                        <a class="navbar-brand" href={{ url_for('home') }} style="font-size: 3em; ">-->
+<!--                            <img src="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png" width="70"-->
+<!--                                height="70" class="d-inline-block align" alt="">-->
+<!--                            timely-->
+<!--                        </a>-->
+<!--                    </nav>-->
+                </div>
+
+                <ul class="list-unstyled components">
+                    <p> </p>
+
+                    <li class="active">
+                        <a href="#"><i class="bi bi-house-door-fill"></i></i>&nbsp;&nbsp;Overview</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="bi bi-trophy-fill"></i></i>&nbsp;&nbsp;Projects</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="bi bi-calendar2-week-fill"></i></i>&nbsp;&nbsp;Schedules</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="bi bi-bar-chart-fill"></i></i>&nbsp;&nbsp;Reports</a>
+                    </li>
+                </ul>
+
+                <ul class="list-unstyled CTAs">
+                    <li>
+                        <a href={{url_for('user_profile', id=current_user.id)}} class="download"><i
+                                class="bi bi-gear-fill"></i>&nbsp;&nbsp;Profile Settings</a>
+                    </li>
+                    <li>
+                        <a href={{url_for('logout')}} class="article btn-primary"><i
+                                class="bi bi-box-arrow-right"></i>&nbsp;&nbsp;Log Out</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Page Content  -->
+            <div id="content" style="width: 100%;">
+
+
+
+
+
+                <div class="container overflow-auto " style="height: 90vh;">
+                    <button style="margin-left:-3em; position: absolute;" type="button" id="sidebarCollapse" class="btn btn-info">
+                            <span class="collapse-left"><i class=""></i></span>
+                            <i class="bi bi-arrow-bar-left"></i>
+                        </button>
+                    <div class="row" style="padding-bottom: 1em; margin-bottom: 1em;">
+                        {% for user in user_data %}
+                        <div class="col-sm col-md-4">
+                            <!-- deck start -->
+                            <div style=" margin-bottom: 1em;">
+                                <div class="card text-center card-ind">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <ul class="nav nav-pills card-header-pills">
+                                            <li class="nav-item">
+                                                <span id=heart><i class="bi bi-heart" style="color: red;"
+                                                        aria-hidden="true"></i>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <img src="{{url_for('serve_file',filename=user['profile_picture_path']) if user['profile_picture_path'] else 'https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg'}}"
+                                                class="img-fluid" style="width: 40%; margin: 2em; border-radius: 25px;"
+                                                alt="...">
+                                        </div>
+                                        <h5 class="card-title">{{user['first_name'] if user['first_name'] else 'N/A'}} {{user['last_name'] if user['last_name'] else 'N/A'}}</h5>
+                                        <p class="card-subtitle mb-2 text-muted mb-4">Individual Developer</p>
+                                        <div style="width: 100%; margin-bottom: 2em;">
+                                            <a href="#" class="btn btn-lg btn-outline-primary"
+                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Engage</a>
+                                            <a href="#" class="btn btn-lg btn-primary"
+                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Hire</a>
+                                        </div>
+
+                                        <!-- Large modal -->
+                                        <button type="button" class="btn"
+                                            style="color: rgb(91, 92, 250); font-size: larger; " data-toggle="modal"
+                                            data-target="#{{user['user_id']}}Modal"><i class="bi bi-person"></i> View
+                                            Profile</button>
+                                        <p class="card-text">${{user['salary'] if user['salary'] else '' }}/hr {{user['city'] if user['city'] else ''}}, {{user['state'] if user['state'] else '' }}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- deck end -->
+                        </div>
+
+                        {% endfor %}
+<!--                        <div class="col-sm">-->
+<!--                            &lt;!&ndash; deck start &ndash;&gt;-->
+<!--                            <div style="height: 30em; ">-->
+<!--                                <div class="card text-center card-ind">-->
+<!--                                    <div class="card-header d-flex justify-content-between align-items-center">-->
+<!--                                        <ul class="nav nav-pills card-header-pills">-->
+<!--                                            <li class="nav-item">-->
+<!--                                                <span id=heart><i class="bi bi-heart" style="color: red;"-->
+<!--                                                        aria-hidden="true"></i>-->
+<!--                                                </span>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                    <div class="card-body">-->
+<!--                                        <div class="text-center">-->
+<!--                                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg"-->
+<!--                                                class="img-fluid" style="width: 40%; margin: 2em; border-radius: 25px;"-->
+<!--                                                alt="...">-->
+<!--                                        </div>-->
+<!--                                        <h5 class="card-title">Sara Jefferson</h5>-->
+<!--                                        <p class="card-subtitle mb-2 text-muted mb-4">Individual Developer</p>-->
+<!--                                        <div style="width: 100%; margin-bottom: 2em;">-->
+<!--                                            <a href="#" class="btn btn-lg btn-outline-primary"-->
+<!--                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Engage</a>-->
+<!--                                            <a href="#" class="btn btn-lg btn-primary"-->
+<!--                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Hire</a>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash; Large modal &ndash;&gt;-->
+<!--                                        <button type="button" class="btn"-->
+<!--                                            style="color: rgb(91, 92, 250); font-size: larger; " data-toggle="modal"-->
+<!--                                            data-target="#exampleModal"><i class="bi bi-person"></i> View-->
+<!--                                            Profile</button>-->
+<!--                                        <p class="card-text">$45 /hr&nbsp; Austin, TX</p>-->
+
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; deck end &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="col-sm">-->
+<!--                            &lt;!&ndash; deck start &ndash;&gt;-->
+<!--                            <div style="height: 30em; ">-->
+<!--                                <div class="card text-center card-ind">-->
+<!--                                    <div class="card-header d-flex justify-content-between align-items-center">-->
+<!--                                        <ul class="nav nav-pills card-header-pills">-->
+<!--                                            <li class="nav-item">-->
+<!--                                                <span id=heart><i class="bi bi-heart" style="color: red;"-->
+<!--                                                        aria-hidden="true"></i>-->
+<!--                                                </span>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                    <div class="card-body">-->
+<!--                                        <div class="text-center">-->
+<!--                                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg"-->
+<!--                                                class="img-fluid" style="width: 40%; margin: 2em; border-radius: 25px;"-->
+<!--                                                alt="...">-->
+<!--                                        </div>-->
+<!--                                        <h5 class="card-title">Sara Jefferson</h5>-->
+<!--                                        <p class="card-subtitle mb-2 text-muted mb-4">Individual Developer</p>-->
+<!--                                        <div style="width: 100%; margin-bottom: 2em;">-->
+<!--                                            <a href="#" class="btn btn-lg btn-outline-primary"-->
+<!--                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Engage</a>-->
+<!--                                            <a href="#" class="btn btn-lg btn-primary"-->
+<!--                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Hire</a>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash; Large modal &ndash;&gt;-->
+<!--                                        <button type="button" class="btn"-->
+<!--                                            style="color: rgb(91, 92, 250); font-size: larger; " data-toggle="modal"-->
+<!--                                            data-target="#exampleModal"><i class="bi bi-person"></i> View-->
+<!--                                            Profile</button>-->
+<!--                                        <p class="card-text">$45 /hr&nbsp; Austin, TX</p>-->
+
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; deck end &ndash;&gt;-->
+<!--                        </div>-->
+                    </div>
+                    <!-- row-end -->
+
+                    <div class="row">
+<!--                        <div class="col-sm">-->
+<!--                            &lt;!&ndash; deck start &ndash;&gt;-->
+<!--                            <div style="height: 25em; ">-->
+<!--                                <div class="card text-center card-ind">-->
+<!--                                    <div class="card-header d-flex justify-content-between align-items-center">-->
+<!--                                        <ul class="nav nav-pills card-header-pills">-->
+<!--                                            <li class="nav-item">-->
+<!--                                                <span id=heart><i class="bi bi-heart" style="color: red;"-->
+<!--                                                        aria-hidden="true"></i>-->
+<!--                                                </span>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                    <div class="card-body">-->
+<!--                                        <div class="text-center">-->
+<!--                                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg"-->
+<!--                                                class="img-fluid" style="width: 40%; margin: 2em; border-radius: 25px;"-->
+<!--                                                alt="...">-->
+<!--                                        </div>-->
+<!--                                        <h5 class="card-title">Sara Jefferson</h5>-->
+<!--                                        <p class="card-subtitle mb-2 text-muted mb-4">Individual Developer</p>-->
+<!--                                        <div style="width: 100%; margin-bottom: 2em;">-->
+<!--                                            <a href="#" class="btn btn-lg btn-outline-primary"-->
+<!--                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Engage</a>-->
+<!--                                            <a href="#" class="btn btn-lg btn-primary"-->
+<!--                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Hire</a>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash; Large modal &ndash;&gt;-->
+<!--                                        <button type="button" class="btn"-->
+<!--                                            style="color: rgb(91, 92, 250); font-size: larger; " data-toggle="modal"-->
+<!--                                            data-target="#exampleModal"><i class="bi bi-person"></i> View-->
+<!--                                            Profile</button>-->
+<!--                                        <p class="card-text">$45 /hr&nbsp; Austin, TX</p>-->
+
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; deck end &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="col-sm">-->
+<!--                            &lt;!&ndash; deck start &ndash;&gt;-->
+<!--                            <div style="height: 30em; ">-->
+<!--                                <div class="card text-center card-ind">-->
+<!--                                    <div class="card-header d-flex justify-content-between align-items-center">-->
+<!--                                        <ul class="nav nav-pills card-header-pills">-->
+<!--                                            <li class="nav-item">-->
+<!--                                                <span id=heart><i class="bi bi-heart" style="color: red;"-->
+<!--                                                        aria-hidden="true"></i>-->
+<!--                                                </span>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                    <div class="card-body">-->
+<!--                                        <div class="text-center">-->
+<!--                                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg"-->
+<!--                                                class="img-fluid" style="width: 40%; margin: 2em; border-radius: 25px;"-->
+<!--                                                alt="...">-->
+<!--                                        </div>-->
+<!--                                        <h5 class="card-title">Sara Jefferson</h5>-->
+<!--                                        <p class="card-subtitle mb-2 text-muted mb-4">Individual Developer</p>-->
+<!--                                        <div style="width: 100%; margin-bottom: 2em;">-->
+<!--                                            <a href="#" class="btn btn-lg btn-outline-primary"-->
+<!--                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Engage</a>-->
+<!--                                            <a href="#" class="btn btn-lg btn-primary"-->
+<!--                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Hire</a>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash; Large modal &ndash;&gt;-->
+<!--                                        <button type="button" class="btn"-->
+<!--                                            style="color: rgb(91, 92, 250); font-size: larger; " data-toggle="modal"-->
+<!--                                            data-target="#exampleModal"><i class="bi bi-person"></i> View-->
+<!--                                            Profile</button>-->
+<!--                                        <p class="card-text">$45 /hr&nbsp; Austin, TX</p>-->
+
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; deck end &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="col-sm">-->
+<!--                            &lt;!&ndash; deck start &ndash;&gt;-->
+<!--                            <div style="height: 30em; ">-->
+<!--                                <div class="card text-center card-ind">-->
+<!--                                    <div class="card-header d-flex justify-content-between align-items-center">-->
+<!--                                        <ul class="nav nav-pills card-header-pills">-->
+<!--                                            <li class="nav-item">-->
+<!--                                                <span id=heart><i class="bi bi-heart" style="color: red;"-->
+<!--                                                        aria-hidden="true"></i>-->
+<!--                                                </span>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                    <div class="card-body">-->
+<!--                                        <div class="text-center">-->
+<!--                                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg"-->
+<!--                                                class="img-fluid" style="width: 40%; margin: 2em; border-radius: 25px;"-->
+<!--                                                alt="...">-->
+<!--                                        </div>-->
+<!--                                        <h5 class="card-title">Sara Jefferson</h5>-->
+<!--                                        <p class="card-subtitle mb-2 text-muted mb-4">Individual Developer</p>-->
+<!--                                        <div style="width: 100%; margin-bottom: 2em;">-->
+<!--                                            <a href="#" class="btn btn-lg btn-outline-primary"-->
+<!--                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Engage</a>-->
+<!--                                            <a href="#" class="btn btn-lg btn-primary"-->
+<!--                                                style="border-radius: 40px; padding-left: 2em; padding-right: 2em;">Hire</a>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash; Large modal &ndash;&gt;-->
+<!--                                        <button type="button" class="btn"-->
+<!--                                            style="color: rgb(91, 92, 250); font-size: larger; " data-toggle="modal"-->
+<!--                                            data-target="#exampleModal"><i class="bi bi-person"></i> View-->
+<!--                                            Profile</button>-->
+<!--                                        <p class="card-text">$45 /hr&nbsp; Austin, TX</p>-->
+
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; deck end &ndash;&gt;-->
+<!--                        </div>-->
+                    </div>
+                    <!-- row-end -->
+                    <!-- modal start -->
+
+                    <!-- modal-end -->
+                </div>
+
+            </div>
+        </div>
+
+        <!-- jQuery CDN - Slim version (=without AJAX) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <!-- Popper.JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                    $('')
+                });
+                $('.customer_dash').attr('style','font-weight: bold');
+            });
+            $("#heart").click(function () {
+                if ($("#heart").hasClass("liked")) {
+                    $("#heart").html('<i class="bi bi-heart" style="color:red;" aria-hidden="true"></i>');
+                    $("#heart").removeClass("liked");
+                } else {
+                    $("#heart").html('<i class="bi bi-heart-fill" style="color:red;" aria-hidden="true"></i>');
+                    $("#heart").addClass("liked");
+                }
+            });
+        </script>
+        {% block addl_scripts%}
+        {% endblock %}
+    </main>
+<!--main section end-->
+</body>
+
+
+{% endblock %}

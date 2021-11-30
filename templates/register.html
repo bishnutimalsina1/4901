@@ -43,17 +43,21 @@
                                         {{form.business_type}}
                                         <label class="form-label" for="business_type">Select The Type of Business You Operate.</label>
                                     </div>
-                                  {{form.submit()}}
+                                   <div class="d-grid mb-5 bg-body"
+                                         style="width: 50%; margin-left: auto; margin-right: auto;">
+                                        <!-- Checkbox -->
+                                            {{ form.submit }}
+                                            {{ form.hidden_tag() }}
 
-                                  {{ form.hidden_tag()}}
+                                    </div>
                             </form>
                                 {% if form.errors: %}
                                       {% for field, errors in form.errors.items() %}
                                           {{ ','.join(errors) }}
                                       {% endfor %}
                                 {% endif %}
-                              <hr class="my-4">'
-                              <label class="form-label"><a href={{ url_for('login') }}>Already Have An Account? Login In Here</a></label>
+                              <hr class="my-4">
+                              <label class="form-label mx-4"><a href={{ url_for('login') }}>Already Have An Account? Login In Here</a></label>
                               </div>
                             </div>
                           </div>

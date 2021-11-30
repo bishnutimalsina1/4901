@@ -1,154 +1,265 @@
 {% extends 'index.html' %}
 
 {% block content %}
-  <head>
-    <meta charset="utf-8" />
+<head>
+    <meta charset="utf-8"/>
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
     <title>Timely</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png" />
+    <link rel="icon" type="image/x-icon" href="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png"/>
     <!-- Bootstrap icons-->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"rel="stylesheet"/>
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
-  </head>
-  <body class="d-flex flex-column h-100">
-    <main class="flex-shrink-0" >
-    <div class="wrapper">
-        <!-- Sidebar  -->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <!-- Image and text -->
-                <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="index.html" style="font-size: 3em; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
-                    <img src="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png" width="70" height="70" class="d-inline-block align" alt="">
-                    timely
-                    </a>
-                </nav>
-            </div>
+    <link href="css/styles.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body class="d-flex flex-column h-100">
 
-            <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
-
-                <li class="active">
-                    <a href="#"><i class="bi bi-house-door-fill"></i></i>&nbsp;&nbsp;Overview</a>
-                </li>
-                <li>
-                    <a href="#"><i class="bi bi-trophy-fill"></i></i>&nbsp;&nbsp;Projects</a>
-                </li>
-                <li>
-                    <a href="#"><i class="bi bi-calendar2-week-fill"></i></i>&nbsp;&nbsp;Schedules</a>
-                </li>
-                <li>
-                    <a href="#"><i class="bi bi-bar-chart-fill"></i></i>&nbsp;&nbsp;Reports</a>
-                </li>
-            </ul>
-
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download"><i class="bi bi-gear-fill"></i>&nbsp;&nbsp;Settings</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article btn-primary"><i class="bi bi-box-arrow-right"></i>&nbsp;&nbsp;Log Out</a>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- Page Content  -->
-        <div id="content" style="width: 100%;">
-
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-                <div class="container-fluid" >
-
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <span class="collapse-left"><i class=""></i></span>
-                        <i class="bi bi-arrow-bar-left"></i>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="bi bi-list"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto" style="margin-right: 1em;">
-                             <!-- Actual search box -->
-                            <div class="form-group has-search " style="margin-right: 2em;">
-                                <span class="form-control-feedback"></span>
-                                <input type="text" class="form-control" placeholder="Search"></input>
-                            </div>
-                            <li class="nav-item" style="margin-right: 2em;">
-                                <a class="nav-link" href="#">Link2</a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 2em;">
-                                <a class="nav-link" href="#">Link2</a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 2em;">
-                                <a class="nav-link" href="#">Link2</a>
-                            </li>
-                        </ul>
-                    </div>
+<!--main section start-->
+<main class="flex-shrink-0">
+        <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <!-- Image and text -->
+                    <nav class="navbar navbar-light bg-body">
+                        <a class="navbar-brand" href={{ url_for('dashboard') }}
+                            style="font-size: 3em; ">
+                            <img src="https://live.staticflickr.com/65535/51638677196_6b09258823_o.png" width="70"
+                                height="70" class="d-inline-block align" alt="">
+                            timely
+                        </a>
+                    </nav>
                 </div>
+
+                <ul class="list-unstyled components">
+                    <p> </p>
+
+                    <li class="active">
+                        <a href="#"><i class="bi bi-house-door-fill"></i></i>&nbsp;&nbsp;Overview</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="bi bi-trophy-fill"></i></i>&nbsp;&nbsp;Projects</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="bi bi-calendar2-week-fill"></i></i>&nbsp;&nbsp;Schedules</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="bi bi-bar-chart-fill"></i></i>&nbsp;&nbsp;Reports</a>
+                    </li>
+                </ul>
+
+                <ul class="list-unstyled CTAs">
+                    <li>
+                        <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download"><i
+                                class="bi bi-gear-fill"></i>&nbsp;&nbsp;Settings</a>
+                    </li>
+                    <li>
+                        <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article btn-primary"><i
+                                class="bi bi-box-arrow-right"></i>&nbsp;&nbsp;Log Out</a>
+                    </li>
+                </ul>
             </nav>
 
-        <!-- Features section-->
-        <section class="py-5" id="features">
-            <div class="container px-5 my-5" style="">
-                <div class="row gx-5">
-                    <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mb-0">A better way to start building.</h2></div>
-                    <div class="col-lg-8">
-                        <div class="row gx-5 row-cols-1 row-cols-md-2">
-                            <div class="col mb-5 h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more text.</p>
+            <!-- Page Content  -->
+            <div id="content" style="width: 100%;">
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+
+                        <button type="button" id="sidebarCollapse" class="btn btn-info">
+                            <span class="collapse-left"><i class=""></i></span>
+                            <i class="bi bi-arrow-bar-left"></i>
+                        </button>
+                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button"
+                            data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="bi bi-list"></i>
+                        </button>
+
+                        <div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
+                            <ul class="nav navbar-nav ml-auto" style="margin-right: 1em;">
+                                <!-- Actual search box -->
+                                <div class="form-group has-search " style="margin-right: 2em;">
+                                    <span class="form-control-feedback"></span>
+                                    <input type="text" class="form-control" placeholder="Search"></input>
+                                </div>
+                                <li class="nav-item" style="margin-right: 2em;">
+                                    <a class="nav-link" href="#">Link2</a>
+                                </li>
+                                <li class="nav-item" style="margin-right: 2em;">
+                                    <a class="nav-link" href="#">Link2</a>
+                                </li>
+                                <li class="nav-item" style="margin-right: 2em;">
+                                    <a class="nav-link" href="#">Link2</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Features section-->
+                <section class="py-4 px-4" id="features">
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-black">Project Summary</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="myAreaChart"></canvas>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col mb-5 h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-building"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more text.</p>
+                        </div>
+
+
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-black">Task List</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- Card Body -->
+
+                                <div class="card-body">
+
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> Direct
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> Social
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-info"></i> Referral
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col mb-5 mb-md-0 h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more text.</p>
+                        </div>
+                    </div>
+                    <!-- Content Row -->
+
+                    <div class="row">
+                        <!-- Area Chart -->
+                <div class="col-xl-8 col-lg-7">
+                    <div class="card mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div
+                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-black">Company List</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
                             </div>
-                            <div class="col h-100">
-                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
-                                <h2 class="h5">Featured title</h2>
-                                <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more text.</p>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-area">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                      <img class="avatar rounded-circle" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg" alt="Bologna">
+                                      <h4 class="card-title">Robert Downey Jr.</h4>
+                                      <h6 class="card-subtitle mb-2 text-muted">Famous Actor</h6>
+                                      <p class="card-text">Robert John Downey Jr.'career has included critical and popular success in his youth, followed by a period of substance abuse and legal difficulties, and a resurgence of commercial success in middle age. </p>
+                                      <a href="#" class="btn btn-info">Follow</a>
+                                      <a href="#" class="btn btn-outline-info">Message</a>
+                                    </div>
+                                  </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
+                    </div>
+                </section>
+
             </div>
-        </section>
-
         </div>
-    </div>
 
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+        <!-- jQuery CDN - Slim version (=without AJAX) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <!-- Popper.JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-                $('')
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                    $('')
+                });
             });
-        });
-    </script>
+        </script>
     </main>
+<!--main section end-->
 </body>
-
 
 
 {% endblock %}
