@@ -1,5 +1,6 @@
 import bcrypt
 import flask_bcrypt
+import flask_login
 from flask import render_template, url_for, redirect, flash, session, request, send_from_directory
 from flask_login import LoginManager, login_user, login_required, logout_user
 from flask_wtf import FlaskForm
@@ -186,6 +187,11 @@ def serve_file(filename):
 @app.route('/user_profile/<id>', methods=['GET', 'POST'])
 @login_required
 def user_profile(id):
+
+    # If current logged in user id doesn't match id from user_profile parameter then it is unauthorized
+    if flask_login.current_user.id != int(id):
+        return render_template("unauthorized.html")
+
     debug = True
     # if id != session['_user_id']:
     #     return redirect(url_for('home'))
@@ -326,7 +332,7 @@ def user_profile(id):
 
             business_update = Business.query.filter_by(
                 id=user_data['business']).update(dict(
-                    business_name=business_name))
+                business_name=business_name))
 
             db.session.commit()
 
