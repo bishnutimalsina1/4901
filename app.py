@@ -3,7 +3,8 @@ import flask_bcrypt
 from flask import render_template, url_for, redirect, flash, session, request, send_from_directory
 from flask_login import LoginManager, login_user, login_required, logout_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, DecimalField, FileField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, DecimalField, \
+    FileField
 from wtforms.validators import InputRequired, Length, ValidationError, Optional
 import time
 from flask_bcrypt import Bcrypt
@@ -113,6 +114,36 @@ class contractorProfileForm(FlaskForm):
     )
 
 
+class EmployerProfileForm(FlaskForm):
+    first_name = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    last_name = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    business_name = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    user_description = TextAreaField(
+        render_kw={'class': 'form-control form-control-lg'})
+    email = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    phone = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    city = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    state = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    twitter_link = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    facebook_link = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    website_link = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    business_picture = FileField(
+        render_kw={'class': 'form-control form-control-lg'})
+    submit = SubmitField(
+        "Update"
+    )
+
+
 @app.route('/')
 def home():  # put application's code here
     user_data = UserInfo.query.all()
@@ -146,9 +177,11 @@ def customer_dashboard():  # put application's code here
     debug = True
     return render_template('customer_dashboard.html', user_data=user_data)
 
+
 @app.route('/profile_pics/<filename>')
 def serve_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 
 @app.route('/user_profile/<id>', methods=['GET', 'POST'])
 @login_required
@@ -215,8 +248,8 @@ def user_profile(id):
                          profile_picture_filename=filename if 'profile_picture' in request.files else None))
 
             user_update = UserInfo.query.filter_by(id=id).update(dict(first_name=first_name,
-                                                                 last_name=last_name,
-                                                                 email=email))
+                                                                      last_name=last_name,
+                                                                      email=email))
             db.session.commit()
         user_data = dict(db.engine.execute(f'''select * from user_profile up
                                            join user_info ui on ui.id = up.user_id
@@ -238,10 +271,87 @@ def user_profile(id):
         contractor_form.last_name.data = user_data['last_name'] if user_data['last_name'] else None
         contractor_form.website_link.data = user_data['website_link'] if user_data['website_link'] else None
         contractor_form.user_description.data = user_data['user_description'] if user_data['user_description'] else None
-        contractor_form.profile_picture.data = user_data['profile_picture_path'] if user_data['profile_picture_path'] else None
+        contractor_form.profile_picture.data = user_data['profile_picture_path'] if user_data[
+            'profile_picture_path'] else None
 
     elif user_data['business_type'] == 2:
-        contractor_form=None
+        employer_form = EmployerProfileForm()
+        if employer_form.validate_on_submit():
+            ## Assign form data to variables
+            email = employer_form.email.data
+            city = employer_form.city.data
+            facebook_link = employer_form.facebook_link.data
+            phone = employer_form.phone.data
+            state = employer_form.state.data
+            twitter_link = employer_form.twitter_link.data
+            first_name = employer_form.first_name.data
+            last_name = employer_form.last_name.data
+            business_name = employer_form.business_name.data
+            website_link = employer_form.website_link.data
+            user_description = employer_form.user_description.data
+            business_picture = employer_form.business_picture.data
+            file_ext = uuid4().__str__()
+            files = request.files
+
+            # If there are not files present in the request then normal profile update
+            if not files:
+                profile_update = UserProfile.query.filter_by(user_id=id).update(
+                    dict(user_description=user_description,
+                         phone=phone,
+                         city=city,
+                         state=state,
+                         twitter_link=twitter_link,
+                         facebook_link=facebook_link,
+                         website_link=website_link,
+                         ))
+            else:
+                file = request.files['business_picture']
+                filename = secure_filename(file.filename)
+                unique_filename = f'{file_ext}_{filename}'
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
+                profile_update = UserProfile.query.filter_by(user_id=id).update(
+                    dict(user_description=user_description,
+                         phone=phone,
+                         city=city,
+                         state=state,
+                         twitter_link=twitter_link,
+                         facebook_link=facebook_link,
+                         website_link=website_link,
+                         profile_picture_path=unique_filename if 'business_picture' in request.files else None,
+                         profile_picture_filename=filename if 'business_picture' in request.files else None))
+
+            user_update = UserInfo.query.filter_by(id=id).update(dict(first_name=first_name,
+                                                                      last_name=last_name,
+                                                                      email=email))
+
+            business_update = Business.query.filter_by(
+                id=user_data['business']).update(dict(
+                    business_name=business_name))
+
+            db.session.commit()
+
+        user_data = dict(db.engine.execute(f'''select * from user_profile up
+                                           join user_info ui on ui.id = up.user_id
+                                           join business b on b.id = up.business   
+                                           where up.user_id in("{id}"); ''').fetchone())
+        print(employer_form.errors)
+        ## set form data to pre-existing data if exists
+        employer_form.email.data = user_data['email'] if user_data['email'] else None
+        employer_form.first_name.data = user_data['first_name'] if user_data['first_name'] else None
+        employer_form.last_name.data = user_data['last_name'] if user_data['last_name'] else None
+        employer_form.city.data = user_data['city'] if user_data['city'] else None
+        employer_form.facebook_link.data = user_data['facebook_link'] if user_data['facebook_link'] else None
+        employer_form.phone.data = user_data['phone'] if user_data['phone'] else None
+        employer_form.state.data = user_data['state'] if user_data['state'] else None
+        employer_form.twitter_link.data = user_data['twitter_link'] if user_data['twitter_link'] else None
+        employer_form.business_name.data = user_data['business_name'] if user_data['business_name'] else None
+        employer_form.website_link.data = user_data['website_link'] if user_data['website_link'] else None
+        employer_form.user_description.data = user_data['user_description'] if user_data['user_description'] else None
+        employer_form.business_picture.data = user_data['profile_picture_path'] if user_data[
+            'profile_picture_path'] else None
+
+        return render_template('business_profile_edit.html', employer_form=employer_form)
+
     # if not user_data:
     #     return redirect(url_for('home'))
     # current_id= user_data.id

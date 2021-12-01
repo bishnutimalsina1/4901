@@ -69,110 +69,93 @@
                       -webkit-backdrop-filter: blur(10px);
                       backdrop-filter: blur(10px); " class="card card-outline-secondary mb-5">
                         <div style=" margin-bottom: 1em;">
-                            <h4>User Information</h4>
-                            <p class="text-muted">Enter the required information below to register. You can change it
+                            <h4>Business Information</h4>
+                            <p class="text-muted">Enter the information about your business below. You can change it
                                 anytime you want.</p>
 
                         </div>
-<!--test start-->
+                        <!--test start-->
                         <div class="">
-     <form enctype="multipart/form-data" method="post">
-         {% if contractor_form %}
-             {%for field in contractor_form%}
-                 {% if field.name == 'profile_picture' %}
-                     {{field.label if field.label else None}}
-                              <div class=" col-xs-1 text-center">
-                                    <img src="{{url_for('serve_file',filename=contractor_form.data) if contractor_form.data else contractor_form.default}}"
+                            <form enctype="multipart/form-data" method="post">
+                                {% if employer_form %}
+                                {%for field in employer_form%}
+                                {% if field.name == 'business_picture' %}
+                                {{field.label if field.label else None}}
+                                <div class=" col-xs-1 text-center">
+                                    <img src="{{url_for('serve_file',filename=employer_form.data) if employer_form.data else employer_form.default}}"
                                          style="width:25%; padding: 2em; border-radius: 12px;">
-                                     {{field if field else None}}
+                                    {{field if field else None}}
                                 </div>
 
-                 {% endif %}
+                                {% endif %}
 
-             {%endfor%}
-         {%endif%}
+                                {%endfor%}
+                                {%endif%}
 
-     </form>
- </div>
-<!--                        test-end-->
+                            </form>
+                        </div>
+                        <!--                        test-end-->
                         <form enctype="multipart/form-data" method="post">
 
-                            <div class="row mb-5 mt-5 ">
+                            <div class="row mb-5 mt-5">
+                                <div class="col">
+                                    <label>Business Name</label>
+                                    {{employer_form.business_name(class_='form-control')}}
+                                </div>
+                            </div>
 
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <label>First Name</label>
+                                    {{employer_form.first_name(class_='form-control')}}
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Last Name</label>
+                                    {{employer_form.last_name(class_='form-control')}}
+                                </div>
+                            </div>
+
+                            <div class="row mb-5 ">
                                 <div class=" col-md-12">
                                     <label>Email address</label>
-                                    {{contractor_form.email(class_='form-control')}}
+                                    {{employer_form.email(class_='form-control')}}
                                 </div>
                             </div>
-                            <div class="row">
 
-                                <div class="row mb-5">
-                                    <div class="  col-md-6">
-                                        <label>First Name</label>
-                                        {{contractor_form.first_name(class_='form-control')}}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Last Name</label>
-                                        {{contractor_form.last_name(class_='form-control')}}
-                                    </div>
-
-                                </div>
-
-
-                            </div>
                             <div class="row mb-5">
                                 <div class=" form-group col-md-4">
                                     <label>City</label>
-                                    {{contractor_form.city(class_='form-control')}}
+                                    {{employer_form.city(class_='form-control')}}
                                 </div>
                                 <div class="col-md-3">
                                     <label>State</label>
-                                    {{contractor_form.state(class_='form-control')}}
+                                    {{employer_form.state(class_='form-control')}}
                                 </div>
                                 <div class="col-md-5">
                                     <label>Phone Number</label>
-                                    {{contractor_form.phone(class_='form-control')}}
+                                    {{employer_form.phone(class_='form-control')}}
                                 </div>
                             </div>
 
                             <div class="row mb-5">
-                                <div class=" form-group col-md-6">
-                                    <label>Salary</label>
-                                    {{contractor_form.salary(class_='form-control')}}
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Employment Type</label>
-                                    {{contractor_form.employment_type(class_='form-control')}}
-                                </div>
-
-                            </div>
-                            <div class="row mb-5">
-                                <div class=" form-group col-md-4">
-                                    <label>Skill Description</label>
-                                    {{contractor_form.skills(class_='form-control')}}
-                                </div>
-                                <div class="col-md-4">
-                                    <label>Experiences</label>
-                                    {{contractor_form.experience(class_='form-control')}}
-                                </div>
                                 <div class="col-md-4">
                                     <label>User Description</label>
-                                    {{contractor_form.user_description(class_='form-control')}}
+                                    {{employer_form.user_description(class_='form-control')}}
                                 </div>
 
                             </div>
                             <div class="row mb-5">
                                 <div class=" form-group col-md-4">
                                     <label>Website Link</label>
-                                    {{contractor_form.website_link(class_='form-control')}}
+                                    {{employer_form.website_link(class_='form-control')}}
                                 </div>
                                 <div class="col-md-4">
                                     <label>Facebook Link</label>
-                                    {{contractor_form.facebook_link(class_='form-control')}}
+                                    {{employer_form.facebook_link(class_='form-control')}}
                                 </div>
                                 <div class="col-md-4">
                                     <label>Twitter Link</label>
-                                    {{contractor_form.twitter_link(class_='form-control')}}
+                                    {{employer_form.twitter_link(class_='form-control')}}
                                 </div>
 
                             </div>
@@ -183,8 +166,8 @@
                                     <div class="d-grid mb-5 bg-body btn-primary btn bg-primary"
                                          style="width: 50%; margin-left: auto; margin-right: auto;">
                                         <!-- Checkbox -->
-                                        {{ contractor_form.submit }}
-                                        {{ contractor_form.hidden_tag() }}
+                                        {{ employer_form.submit }}
+                                        {{ employer_form.hidden_tag() }}
 
                                     </div>
                                 </div>
@@ -193,8 +176,8 @@
 
 
                             <!--        <div class="form-group col-md-6">-->
-                            <!--            {% if contractor_form %}-->
-                            <!--            {%for field in contractor_form%}-->
+                            <!--            {% if employer_form %}-->
+                            <!--            {%for field in employer_form%}-->
                             <!--            {% if field.name != 'submit' and field.name != 'csrf_token' %}-->
                             <!--            {{field.label if field.label else None}}-->
                             <!--            {% endif %}-->
