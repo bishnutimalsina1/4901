@@ -1,7 +1,8 @@
 import bcrypt
 import flask_bcrypt
+import flask_login
 from flask import render_template, url_for, redirect, flash, session, request, send_from_directory
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, DecimalField, FileField
 from wtforms.validators import InputRequired, Length, ValidationError, Optional
@@ -112,12 +113,25 @@ class contractorProfileForm(FlaskForm):
         "Update"
     )
 
+class businessProfileForm(FlaskForm):
+    business_name = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    business_description = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    business_needs = StringField(
+        render_kw={'class': 'form-control form-control-lg'})
+    contractor_type = SelectField(
+        render_kw={'class': 'form-control form-control-lg'})
+    submit = SubmitField(
+        "Update"
+    )
 
 @app.route('/')
 def home():  # put application's code here
     user_data = UserInfo.query.all()
     for user in user_data:
         print(user.first_name)
+    jobs = db.engine.execute(f'''select * from jobs where user_id = 57''').fetchall()
     debug = True
     return render_template('index.html', user_data=user_data)
 
@@ -125,11 +139,15 @@ def home():  # put application's code here
 @app.route('/dashboard')
 @login_required
 def dashboard():  # put application's code here
-    user_data = UserInfo.query.all()
-    for user in user_data:
-        print(user.first_name)
+
+    user_data = db.engine.execute(f'''select * from user_profile where user_id = {current_user.id}''')
+
+    job_data = db.engine.execute(f'''select * from jobs 
+                                     join business b on b.id = jobs.business_id
+                                     where is_active = 'T' and user_id = {current_user.id}''').fetchall()
+    job_data = [dict(u) for u in job_data]
     debug = True
-    return render_template('dashboard.html', user_data=user_data)
+    return render_template('dashboard.html', user_data=user_data, job_data=job_data)
 
 
 @app.route('/customer_dashboard')
@@ -154,8 +172,8 @@ def serve_file(filename):
 @login_required
 def user_profile(id):
     debug = True
-    if id != session['_user_id']:
-        return redirect(url_for('home'))
+    # if id != session['_user_id']:
+    #     return redirect(url_for('home'))
     user_data = dict(db.engine.execute(f'''select * from user_profile up
                                     join user_info ui on ui.id = up.user_id
                                     join business b on b.id = up.business   
@@ -181,7 +199,7 @@ def user_profile(id):
             experience = contractor_form.experience.data
             profile_picture = contractor_form.profile_picture.data
             file_ext = uuid4().__str__()
-            file = request.files['profile_picture']
+            file = profile_picture
             if file.filename == '':
                 profile_update = UserProfile.query.filter_by(user_id=id).update(
                     dict(user_description=user_description,
@@ -245,8 +263,56 @@ def user_profile(id):
     # if not user_data:
     #     return redirect(url_for('home'))
     # current_id= user_data.id
+    debug=True
     return render_template('profile.html', user_data=user_data, contractor_form=contractor_form)
 
+@app.route('/business_profile/<id>', methods=['GET', 'POST'])
+@login_required
+def business_profile(id):
+    if id != session['_user_id']:
+        return redirect(url_for('home'))
+    contractor_type_opts = db.engine.execute(f'''select * from business_categories''').fetchall()
+    contractor_type_opts = [dict(c) for c in contractor_type_opts]
+    business_data = dict(db.engine.execute(f'''select * from business_profile bp
+                                        join user_info ui on ui.business = bp.business_id
+                                        join business b on b.id = bp.business_id
+                                        where ui.id in ("{id}")''').fetchone())
+    choices = []
+    for opt in contractor_type_opts:
+        choices.append((opt['id'],opt['description']))
+    if business_data['business_type'] == 2:
+        business_form = businessProfileForm()
+        business_form.contractor_type.choices = choices
+        if business_form.validate_on_submit():
+            business_name = business_form.business_name.data
+            business_description = business_form.business_description.data
+            business_needs = business_form.business_needs.data
+            contractor_type = business_form.contractor_type.data
+
+            profile_update = BusinessProfile.query.filter_by(business_id = business_data['business_id']).update(
+                dict(business_description=business_description,
+                     business_needs=business_needs,
+                     contractor_type=contractor_type)
+            )
+            business_update = Business.query.filter_by(id=business_data['business_id']).update(
+                dict(business_name=business_name)
+            )
+            db.session.commit()
+
+            business_data = dict(db.engine.execute(f'''select * from business_profile bp
+                                                    join user_info ui on ui.business = bp.business_id
+                                                    join business b on b.id = bp.business_id
+                                                    where ui.id in ("{id}")''').fetchone())
+        contractor_select = dict(db.engine.execute(f'''select description, id from business_categories where id ={business_data['contractor_type']}''').fetchone())
+        business_form.business_name.data = business_data['business_name']
+        business_form.business_description.data = business_data['business_description']
+        business_form.business_needs.data = business_data['business_needs']
+        business_form.contractor_type.data = contractor_select['id']
+
+    elif business_data['business_type'] == 1:
+        business_form=None
+
+    return render_template('business_profile.html', business_form=business_form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -283,11 +349,18 @@ def register():
 
         db.session.add(user)
         db.session.commit()
-        user_id = db.engine.execute(f'select id from user_info where email in ("{form.email.data}");').fetchone()
-        user_profile = UserProfile(user_id=user_id['id'],
-                                   business=business_id['id'])
-        db.session.add(user_profile)
-        db.session.commit()
+        user_id = db.engine.execute(f'select id, business_type from user_info where email in ("{form.email.data}");').fetchone()
+        if user_id['business_type'] == 1:
+            user_profile = UserProfile(user_id=user_id['id'],
+                                       business=business_id['id'])
+            db.session.add(user_profile)
+            db.session.commit()
+
+        elif user_id['business_type'] == 2:
+            business_profile = BusinessProfile(user_id=user_id['id'],
+                                               business_id=business_id['id'])
+            db.session.add(business_profile)
+            db.session.commit()
         login_user(user)
         return redirect('/')
     else:

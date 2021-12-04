@@ -98,3 +98,19 @@ class UserProfile(db.Model):
         self.skills_description = skills_description
         self.profile_picture_path = profile_picture_path
         self.profile_picture_filename = profile_picture_filename
+
+class BusinessProfile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    business_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer)
+    business_description = db.Column(db.VARCHAR)
+    business_needs = db.Column(db.VARCHAR)
+    contractor_type = db.Column(db.Integer)
+
+    def __init__(self, business_id=None, user_id=None, business_description=None, business_needs=None, contractor_type=None):
+        self.business_id = business_id
+        self.user_id = user_id
+        self.business_description = business_description
+        self.business_needs = business_needs
+        self.contractor_type = contractor_type
+        self.profile_picture_filename = profile_picture_filename

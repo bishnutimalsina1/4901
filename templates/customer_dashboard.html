@@ -18,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href='fullcalendar/main.css' rel='stylesheet' />
 </head>
 <body class="d-flex flex-column h-100">
 <!-- modal template start -->
@@ -488,6 +489,19 @@
                     $("#heart").addClass("liked");
                 }
             });
+        </script>
+
+        <script src='fullcalendar/main.js'></script>
+            <script>
+
+              document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                  initialView: 'dayGridMonth'
+                });
+                calendar.render();
+              });
+
         </script>
         {% block addl_scripts%}
         {% endblock %}
