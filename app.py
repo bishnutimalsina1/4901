@@ -199,7 +199,7 @@ def user_profile(id):
             experience = contractor_form.experience.data
             profile_picture = contractor_form.profile_picture.data
             file_ext = uuid4().__str__()
-            file = request.files['profile_picture']
+            file = profile_picture
             if file.filename == '':
                 profile_update = UserProfile.query.filter_by(user_id=id).update(
                     dict(user_description=user_description,
@@ -263,6 +263,7 @@ def user_profile(id):
     # if not user_data:
     #     return redirect(url_for('home'))
     # current_id= user_data.id
+    debug=True
     return render_template('profile.html', user_data=user_data, contractor_form=contractor_form)
 
 @app.route('/business_profile/<id>', methods=['GET', 'POST'])

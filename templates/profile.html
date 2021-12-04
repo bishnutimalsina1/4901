@@ -82,8 +82,8 @@
                  {% if field.name == 'profile_picture' %}
                      {{field.label if field.label else None}}
                               <div class=" col-xs-1 text-center">
-                                    <img src="{{url_for('serve_file',filename=contractor_form.data) if contractor_form.data else contractor_form.default}}"
-                                         style="width:25%; padding: 2em; border-radius: 12px;">
+                                    <img src="{{url_for('serve_file',filename=contractor_form.profile_picture.data) if contractor_form.profile_picture.data else contractor_form.default}}"
+                                         style="width:75%; padding: 2em; border-radius: 12px;">
                                      {{field if field else None}}
                                 </div>
 
@@ -91,11 +91,7 @@
 
              {%endfor%}
          {%endif%}
-
-     </form>
- </div>
 <!--                        test-end-->
-                        <form enctype="multipart/form-data" method="post">
 
                             <div class="row mb-5 mt-5 ">
 
