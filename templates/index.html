@@ -17,7 +17,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     </head>
-
+    {% block addl_styles %}
+    {% endblock %}
     <body class="d-flex flex-column h-100">
         <main class="flex-shrink-0">
             <!-- Navigation-->
@@ -47,7 +48,11 @@
                                     </li>
                                     <div  style="margin-left:4px;" class="dropdown-menu">
                                         <a class="dropdown-item" href={{url_for('logout')}}>Logout</a>
-                                        <a class="dropdown-item" href={{url_for('user_profile', id=current_user.id)}}>Profile</a>
+                                        {% if current_user.business_type == 1 %}
+                                            <a class="dropdown-item" href={{url_for('user_profile', id=current_user.id)}}>Profile</a>
+                                        {% elif current_user.business_type == 2 %}
+                                            <a class="dropdown-item" href={{url_for('business_profile', id=current_user.id)}}>Profile</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% else %}

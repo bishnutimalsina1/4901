@@ -19,9 +19,11 @@
     <link href="css/styles.css" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"
 
-    <style>
+</head>
+    {%block addl_styles %}
+ <style>
     .contractor_dash{
         font-weight: bold;
     }
@@ -30,8 +32,7 @@
         padding: 2px;
     }
     </style>
-</head>
-
+    {% endblock %}
 
 
 <body class="d-flex flex-column h-100">
@@ -191,7 +192,7 @@
                             <div class="card-body">
 
                                 <div class="chart-pie pt-4 pb-2">
-                                    <div id="calendar"></div> 
+                                    <div id="calendar"></div>
                                 </div>
                                 <!--<div class="mt-4 text-center small">
                                         <span class="mr-2">
