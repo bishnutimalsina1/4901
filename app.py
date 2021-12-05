@@ -131,7 +131,7 @@ def home():  # put application's code here
     user_data = UserInfo.query.all()
     for user in user_data:
         print(user.first_name)
-    jobs = db.engine.execute(f'''select * from jobs where user_id = 57''').fetchall()
+    #jobs = db.engine.execute(f'''select * from jobs where user_id = 57''').fetchall()
     debug = True
     return render_template('index.html', user_data=user_data)
 
@@ -179,7 +179,7 @@ def user_profile(id):
                                     join business b on b.id = up.business   
                                     where up.user_id in("{id}"); ''').fetchone())
 
-    if user_data['business_type'] == 1:
+    if user_data['business_type'] == '1':
         contractor_form = contractorProfileForm()
         if contractor_form.validate_on_submit():
             ## Assign form data to variables
@@ -258,7 +258,7 @@ def user_profile(id):
         contractor_form.user_description.data = user_data['user_description'] if user_data['user_description'] else None
         contractor_form.profile_picture.data = user_data['profile_picture_path'] if user_data['profile_picture_path'] else None
 
-    elif user_data['business_type'] == 2:
+    else:
         contractor_form=None
     # if not user_data:
     #     return redirect(url_for('home'))
