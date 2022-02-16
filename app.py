@@ -149,6 +149,19 @@ def dashboard():  # put application's code here
     debug = True
     return render_template('dashboard.html', user_data=user_data, job_data=job_data)
 
+@app.route('/projects')
+@login_required
+def dashboard():  # put application's code here
+
+    user_data = db.engine.execute(f'''select * from user_profile where user_id = {current_user.id}''')
+
+    job_data = db.engine.execute(f'''select * from jobs 
+                                     join business b on b.id = jobs.business_id
+                                     where is_active = 'T' and user_id = {current_user.id}''').fetchall()
+    job_data = [dict(u) for u in job_data]
+    debug = True
+    return render_template('project_summary.html', user_data=user_data, job_data=job_data)
+
 
 @app.route('/customer_dashboard')
 @login_required
