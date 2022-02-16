@@ -161,11 +161,11 @@ def projects():  # put application's code here
                                          join business b on b.id = jobs.business_id
                                          where is_complete='T' and user_id = {current_user.id}''').fetchall()
     else:
-        is_active = 'T' if type == "active" else 'F'
+        is_active = 'F' if type_of_project == "pending" else 'T'
         job_data = db.engine.execute(f'''select * from jobs 
                                              join business b on b.id = jobs.business_id
-                                             where is_completed='F' 
-                                             and is_active={is_active} 
+                                             where is_complete='F' 
+                                             and is_active='{is_active}' 
                                              and user_id = {current_user.id}''').fetchall()
 
     job_data = [dict(u) for u in job_data]
