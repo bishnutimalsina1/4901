@@ -111,19 +111,36 @@
                             <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 
+                                {% set proj_type = request.args.get('type') %}
+
                                 <ul class="nav nav-tabs">
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="" >Ongoing</a>
+                                        <a class="nav-link
+                                        {% if proj_type == None %}
+                                        active{% endif %}
+                                        " href="{{ url_for('projects') }}">Ongoing</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Pending</a>
+                                    <li class="nav-item
+                                        {% if proj_type == 'pending' %}
+                                        active{% endif %}
+                                    ">
+                                        <a class="nav-link" href="{{ url_for('projects',type='pending') }}">Pending</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Finished</a>
+                                    <li class="nav-item
+                                         {% if proj_type == 'finished' %}
+                                         active{% endif %}
+                                    ">
+                                        <a class="nav-link" href="{{ url_for('projects',type='finished') }}">Finished</a>
                                     </li>
                                 </ul>
 
-                                <h6 class="m-0 font-weight-bold text-black">Active Projects</h6>
+                                <h6 class="m-0 font-weight-bold text-black">
+                                    {% if proj_type == None %}
+                                    Active Projects
+                                    {% else %}
+                                        {{ proj_type.capitalize() }} Projects
+                                    {% endif %}
+                                </h6>
 
                                 <!--<div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
