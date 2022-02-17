@@ -142,12 +142,28 @@ def dashboard():  # put application's code here
 
     user_data = db.engine.execute(f'''select * from user_profile where user_id = {current_user.id}''')
 
-    job_data = db.engine.execute(f'''select * from jobs 
-                                     join business b on b.id = jobs.business_id
-                                     where is_active = 'T' and user_id = {current_user.id}''').fetchall()
+    # job_data = db.engine.execute(f'''select * from jobs
+    #                                  join business b on b.id = jobs.business_id
+    #                                  where is_active = 'T' and user_id = {current_user.id}''').fetchall()
+    job_data = db.engine.execute(f'''select * from jobs ''').fetchall()
     job_data = [dict(u) for u in job_data]
     debug = True
-    return render_template('dashboard.html', user_data=user_data, job_data=job_data)
+    events = [
+        {
+            'todo': 'Plumbing',
+            'date': '2022-02-01'
+        },
+        {
+            'todo': 'Tap',
+            'date': '2022-02-03',
+            'end': '2022-02-04'
+        },
+        {
+            'todo': 'Finishing',
+            'date': '2022-02-06T12:30:00',
+        }
+    ]
+    return render_template('dashboard.html', events=events, user_data=user_data, job_data=job_data)
 
 
 @app.route('/customer_dashboard')
@@ -158,6 +174,7 @@ def customer_dashboard():  # put application's code here
                                        join business b on b.id = up.business
                                        where business_type = 1;''').fetchall()
     user_data = [dict(u) for u in user_data]
+
     for user in user_data:
         if user['profile_picture_path']:
             user['profile_pic'] = os.path.join(app.config['UPLOAD_FOLDER'], user['profile_picture_path'])

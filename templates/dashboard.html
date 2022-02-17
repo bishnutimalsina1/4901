@@ -127,7 +127,7 @@
                 <div class="row">
 
                     <!-- Area Chart -->
-                    <div class="col-xl-5 col-lg-6">
+                    <div class="col-xl-7 col-lg-7">
                         <div class="card mb-4">
                             <!-- Card Header - Dropdown -->
                             <div
@@ -152,20 +152,102 @@
                             <!-- Card Body -->
                             <div class="card-body">
                                 <div class="chart-area">
-                                    <ul style="list-style-type: none;">
-                                        {%for job in job_data%}
-                                                <div class="active_project">{{job["business_name"]}} {{job["id"]}} {{job["job_title"]}} </div>
-                                                <li>{{job["job_description"]}}</li>
-                                        {%endfor%}
-                                    </ul>
+
+                                    <!-- Card Body -->
+                                <div class="card-body" style="border-width: 0;text-align: left;">
+
+                                    <!--  -->
+                                    <div class="row">
+                                        <!-- Nav tabs -->
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <ul class="nav nav-tabs justify-content-left" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" data-toggle="tab" href="#active"
+                                                            role="tab">
+                                                            <i class="now-ui-icons objects_umbrella-13"></i> Active
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#inactive"
+                                                            role="tab">
+                                                            <i class="now-ui-icons shopping_cart-simple"></i> Inactive
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#complete"
+                                                            role="tab">
+                                                            <i class="now-ui-icons shopping_shop"></i> Complete
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                            <div class="card-body">
+                                                <!-- Tab panes -->
+                                                <div class="tab-content text-center">
+                                                    <div class="tab-pane active" id="active" role="tabpanel">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Project Name</th>
+                                                                    <th scope="col">Team</th>
+                                                                    <th scope="col">Start Date</th>
+                                                                    <th scope="col">End Date</th>
+                                                                    <th scope="col">Progress</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {%for job in job_data%}
+                                                             <tr>
+                                                                    <th style="text-align: left" scope="row">{{job["job_title"]}}</th>
+
+                                                                    <td>{{job["business_name"]}}</td>
+                                                                    <td>{{job["job_started_on"]}}</td>
+                                                                    <td>{{job["job_complete_on"]}}</td>
+                                                                    <td>
+                                                                        <div class="progress">
+                                                                            <div class="progress-bar" role="progressbar"
+                                                                                style="width: {{job["progress"]}}%" aria-valuenow="25"
+                                                                                aria-valuemin="0" aria-valuemax="100">
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            {%endfor%}
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="tab-pane" id="inactive" role="tabpanel">
+                                                       <!-- insert table here -->
+                                                    </div>
+                                                    <div class="tab-pane" id="complete" role="tabpanel">
+                                                       <!-- insert table here -->
+                                                    </div>
+                                                    <div class="tab-pane" id="settings" role="tabpanel">
+                                                        <!-- insert table here -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- End Tabs on plain Card -->
+
+                                        <!--  -->
+                                    </div>
                                 </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
 
 
                     <!-- Pie Chart -->
-                    <div class="col-xl-7 col-lg-6">
+                    <div class="col-xl-5 col-lg-5">
                         <div class="card mb-4">
                             <!-- Card Header - Dropdown -->
                             <div
@@ -213,9 +295,7 @@
 
                 <div class="row">
                     <!-- Area Chart -->
-                    <div class="col-xl-8 col-lg-7">
 
-                    </div>
                 </div>
             </section>
 
@@ -234,6 +314,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
             integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
             crossorigin="anonymous"></script>
+
+
     {% block addl_scripts%}
     <script type="text/javascript">
         $(document).ready(function () {
@@ -247,17 +329,21 @@
 
     <link href='static/css/fullcalendar.css' rel='stylesheet' />
     <script src='static/js/fullcalendar.js'></script>
-    <script>
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth'
-        });
-        calendar.render();
-      });
-
-    </script>
+     <script >
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                events : [
+                    {% for job in job_data %}
+                    {
+                        title : '{{job["job_title"]}}',
+                        start : '{{job["job_started_on"]}}',
+                        end    : '{{job["job_complete_on"]}}',
+                    },
+                    {% endfor %}
+                ]
+            });
+            calendar.render();
+        </script>
     {% endblock %}
 </main>
 <!--main section end-->
