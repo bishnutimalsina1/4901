@@ -106,8 +106,9 @@ class BusinessProfile(db.Model):
     business_description = db.Column(db.VARCHAR)
     business_needs = db.Column(db.VARCHAR)
     contractor_type = db.Column(db.Integer)
+    profile_picture_filename = db.Column(db.VARCHAR)
 
-    def __init__(self, business_id=None, user_id=None, business_description=None, business_needs=None, contractor_type=None):
+    def __init__(self, business_id=None, user_id=None, business_description=None, business_needs=None, contractor_type=None, profile_picture_filename=None):
         self.business_id = business_id
         self.user_id = user_id
         self.business_description = business_description

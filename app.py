@@ -131,7 +131,7 @@ def home():  # put application's code here
     user_data = UserInfo.query.all()
     for user in user_data:
         print(user.first_name)
-    jobs = db.engine.execute(f'''select * from jobs where user_id = 57''').fetchall()
+    #jobs = db.engine.execute(f'''select * from jobs where user_id = 57''').fetchall()
     debug = True
     return render_template('index.html', user_data=user_data)
 
@@ -172,7 +172,7 @@ def customer_dashboard():  # put application's code here
     user_data = db.engine.execute(f'''select * from user_profile up
                                        join user_info ui on ui.id = up.user_id
                                        join business b on b.id = up.business
-                                       where business_type = 1;''').fetchall()
+                                       where b.business_type = 1;''').fetchall()
     user_data = [dict(u) for u in user_data]
 
     for user in user_data:
@@ -196,7 +196,7 @@ def user_profile(id):
                                     join business b on b.id = up.business   
                                     where up.user_id in("{id}"); ''').fetchone())
 
-    if user_data['business_type'] == 1:
+    if user_data['business_type'] == '1':
         contractor_form = contractorProfileForm()
         if contractor_form.validate_on_submit():
             ## Assign form data to variables
@@ -275,7 +275,7 @@ def user_profile(id):
         contractor_form.user_description.data = user_data['user_description'] if user_data['user_description'] else None
         contractor_form.profile_picture.data = user_data['profile_picture_path'] if user_data['profile_picture_path'] else None
 
-    elif user_data['business_type'] == 2:
+    else:
         contractor_form=None
     # if not user_data:
     #     return redirect(url_for('home'))
@@ -290,14 +290,16 @@ def business_profile(id):
         return redirect(url_for('home'))
     contractor_type_opts = db.engine.execute(f'''select * from business_categories''').fetchall()
     contractor_type_opts = [dict(c) for c in contractor_type_opts]
-    business_data = dict(db.engine.execute(f'''select * from business_profile bp
+    business_data = db.engine.execute(f'''select * from business_profile bp
                                         join user_info ui on ui.business = bp.business_id
                                         join business b on b.id = bp.business_id
-                                        where ui.id in ("{id}")''').fetchone())
+                                        where ui.id in ("{id}")''').fetchone()
+    if business_data:
+        business_data = dict(business_data)
     choices = []
     for opt in contractor_type_opts:
         choices.append((opt['id'],opt['description']))
-    if business_data['business_type'] == 2:
+    if business_data['business_type'] == '2':
         business_form = businessProfileForm()
         business_form.contractor_type.choices = choices
         if business_form.validate_on_submit():
@@ -320,13 +322,13 @@ def business_profile(id):
                                                     join user_info ui on ui.business = bp.business_id
                                                     join business b on b.id = bp.business_id
                                                     where ui.id in ("{id}")''').fetchone())
-        contractor_select = dict(db.engine.execute(f'''select description, id from business_categories where id ={business_data['contractor_type']}''').fetchone())
+        contractor_select = dict(db.engine.execute(f'''select description, id from business_categories where id ={business_data['business_type']}''').fetchone())
         business_form.business_name.data = business_data['business_name']
         business_form.business_description.data = business_data['business_description']
         business_form.business_needs.data = business_data['business_needs']
         business_form.contractor_type.data = contractor_select['id']
 
-    elif business_data['business_type'] == 1:
+    else:
         business_form=None
 
     return render_template('business_profile.html', business_form=business_form)
