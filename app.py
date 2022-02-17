@@ -185,6 +185,19 @@ def customer_dashboard():  # put application's code here
     debug = True
     return render_template('customer_dashboard.html', user_data=user_data)
 
+
+
+@app.route('/hire', methods=['POST'])
+@login_required
+def hire_contractor():
+    contractor_id = request.form.get('contractor_id')
+    db.engine.execute(text('''insert into jobs 
+    (job_title, job_description, job_hourly_pay, business_id, user_id, job_required_skills, is_active, is_complete) 
+    values ('Title', 'Description', 15, 49, :user_id, 'N/A', 'T', 'F')
+    '''), user_id=contractor_id)
+    return redirect(url_for('customer_dashboard'))
+
+
 @app.route('/profile_pics/<filename>')
 def serve_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
