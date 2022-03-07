@@ -2,6 +2,7 @@ from __init__ import db
 
 
 class UserInfo(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.VARCHAR(45))
     last_name = db.Column(db.VARCHAR(45))
@@ -32,6 +33,7 @@ class UserInfo(db.Model):
 
 
 class BusinessType(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.VARCHAR)
     description = db.Column(db.VARCHAR)
@@ -41,20 +43,35 @@ class BusinessType(db.Model):
         self.description = description or None
 
 
+class Projects(db.Model):
+    __tablename__ = 'projects'
+    __table_args__ = {'extend_existing': True}
+    project_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    business_id = db.Column(db.Integer)
+    is_approved = db.Column(db.Integer)
+
+    def __init__(self, project_id, user_id, business_id, is_approved):
+        self.project_id = project_id or None
+        self.user_id = user_id or None
+        self.business_id = business_id or None
+        self.is_approved = is_approved or None
+
+
 class Business(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     business_name = db.Column(db.VARCHAR)
     business_phone = db.Column(db.VARCHAR)
     email = db.Column(db.VARCHAR)
     description = db.Column(db.VARCHAR)
-    type = db.Column(db.VARCHAR)
+    business_type = db.Column(db.VARCHAR)
 
-    def __init__(self, business_name, phone, email, description, type):
+    def __init__(self, business_name, phone, email, description, business_type):
         self.business_name = business_name or None
         self.phone = phone or None
         self.email = email or None
         self.description = description or None
-        self.type = type or None
+        self.business_type = business_type or None
 
 
 class UserProfile(db.Model):

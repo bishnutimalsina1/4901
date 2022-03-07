@@ -4,7 +4,8 @@ import flask_login
 from flask import render_template, url_for, redirect, flash, session, request, send_from_directory
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, DecimalField, FileField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, DecimalField, \
+    FileField
 from wtforms.validators import InputRequired, Length, ValidationError, Optional
 import time
 from flask_bcrypt import Bcrypt
@@ -113,6 +114,7 @@ class contractorProfileForm(FlaskForm):
         "Update"
     )
 
+
 class businessProfileForm(FlaskForm):
     business_name = StringField(
         render_kw={'class': 'form-control form-control-lg'})
@@ -126,12 +128,13 @@ class businessProfileForm(FlaskForm):
         "Update"
     )
 
+
 @app.route('/')
 def home():  # put application's code here
     user_data = UserInfo.query.all()
     for user in user_data:
         print(user.first_name)
-    #jobs = db.engine.execute(f'''select * from jobs where user_id = 57''').fetchall()
+    # jobs = db.engine.execute(f'''select * from jobs where user_id = 57''').fetchall()
     debug = True
     return render_template('index.html', user_data=user_data)
 
@@ -166,6 +169,47 @@ def dashboard():  # put application's code here
     return render_template('dashboard.html', events=events, user_data=user_data, job_data=job_data)
 
 
+@app.route('/dashboard/projects')
+@login_required
+def projects():  # put application's code here
+
+    user_data = db.engine.execute(f'''select * from user_profile where user_id = {current_user.id}''')
+
+    project_data = db.engine.execute(f'''select * from projects
+                                     join business b on b.id = projects.business_id
+                                     where is_approved = 0 and user_id = {current_user.id}''').fetchall()
+    job_data = db.engine.execute(f'''select * from projects ''').fetchall()
+    job_data = [dict(u) for u in job_data]
+
+    return render_template('projects.html', user_data=user_data, job_data=job_data, project_data=project_data)
+
+
+@app.route('/addTask', methods=['POST'])
+@login_required
+def addTask():
+    task_name = request.form.get('task_name')
+    start_time = request.form.get('eventstarttime')
+    start_date = request.form.get('eventstartdate')
+    end_time = request.form.get('eventendtime')
+    end_date = request.form.get('eventenddate')
+    progress = request.form.get('progress')
+    color = request.form.get('exampleColorInput')
+    start = start_date + ' ' + start_time + ":00"
+    end = end_date + ' ' + end_time + ":00"
+    user_id = request.form.get('user_id')
+    print(task_name)
+    print(start)
+    print(end)
+    print(progress)
+    print(color)
+
+    db.engine.execute(text('''insert into jobs
+         (job_title, job_description, job_hourly_pay, business_id, user_id, job_required_skills, is_active, is_complete, job_started_on, job_complete_on, progress, color)
+         values (:job_title, :job_description, :job_hourly_pay, :business_id, :user_id, :job_required_skills, :is_active, :is_complete, :job_started_on, :job_complete_on,:progress, :color)
+         '''), job_title=task_name, job_description="", job_hourly_pay=10, business_id=user_id, user_id=user_id, job_required_skills="", is_active='T', is_complete='F', job_started_on=start, job_complete_on=end, progress=progress, color=color)
+    return redirect(url_for('dashboard'))
+
+
 @app.route('/customer_dashboard')
 @login_required
 def customer_dashboard():  # put application's code here
@@ -181,9 +225,48 @@ def customer_dashboard():  # put application's code here
     debug = True
     return render_template('customer_dashboard.html', user_data=user_data)
 
+
 @app.route('/profile_pics/<filename>')
 def serve_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
+@app.route('/hire', methods=['POST'])
+@login_required
+def hire_contractor():
+    contractor_id = int(request.form.get('contractor_id'))
+    # username = request.form.get('username')
+    c_user_id = request.form.get('user_id')
+    # print("contId: " + str(contractor_id))
+    # print("c_Id: " + str(c_user_id))
+    # print("username: " + str(username))
+    db.engine.execute(text('''insert into projects 
+         (business_id, user_id) 
+         values (:business_id, :user_id)
+         '''), business_id=contractor_id, user_id=c_user_id)
+    return redirect(url_for('customer_dashboard'))
+
+
+@app.route('/approve', methods=['GET', 'POST'])
+@login_required
+def approve_request():
+    project_id = request.form.get('project_id')
+    user_id = request.form.get('user_id')
+    business_id = request.form.get('business_id')
+    project = Projects.query.filter_by(project_id=project_id).first()
+
+    if request.method == 'POST':
+        if project:
+            db.session.delete(project)
+            db.session.commit()
+
+            db.engine.execute(text('''insert into projects 
+                     (project_id, user_id, business_id, is_approved) 
+                     values (:project_id, :user_id, :business_id, :is_approved)
+                     '''), project_id=project_id, user_id=user_id, business_id=business_id, is_approved=1)
+
+    return redirect(url_for('projects'))
+
 
 @app.route('/user_profile/<id>', methods=['GET', 'POST'])
 @login_required
@@ -250,8 +333,8 @@ def user_profile(id):
                          profile_picture_filename=filename if 'profile_picture' in request.files else None))
 
             user_update = UserInfo.query.filter_by(id=id).update(dict(first_name=first_name,
-                                                                 last_name=last_name,
-                                                                 email=email))
+                                                                      last_name=last_name,
+                                                                      email=email))
             db.session.commit()
         user_data = dict(db.engine.execute(f'''select * from user_profile up
                                            join user_info ui on ui.id = up.user_id
@@ -273,15 +356,17 @@ def user_profile(id):
         contractor_form.last_name.data = user_data['last_name'] if user_data['last_name'] else None
         contractor_form.website_link.data = user_data['website_link'] if user_data['website_link'] else None
         contractor_form.user_description.data = user_data['user_description'] if user_data['user_description'] else None
-        contractor_form.profile_picture.data = user_data['profile_picture_path'] if user_data['profile_picture_path'] else None
+        contractor_form.profile_picture.data = user_data['profile_picture_path'] if user_data[
+            'profile_picture_path'] else None
 
     else:
-        contractor_form=None
+        contractor_form = None
     # if not user_data:
     #     return redirect(url_for('home'))
     # current_id= user_data.id
-    debug=True
+    debug = True
     return render_template('profile.html', user_data=user_data, contractor_form=contractor_form)
+
 
 @app.route('/business_profile/<id>', methods=['GET', 'POST'])
 @login_required
@@ -298,7 +383,7 @@ def business_profile(id):
         business_data = dict(business_data)
     choices = []
     for opt in contractor_type_opts:
-        choices.append((opt['id'],opt['description']))
+        choices.append((opt['id'], opt['description']))
     if business_data['business_type'] == '2':
         business_form = businessProfileForm()
         business_form.contractor_type.choices = choices
@@ -308,7 +393,7 @@ def business_profile(id):
             business_needs = business_form.business_needs.data
             contractor_type = business_form.contractor_type.data
 
-            profile_update = BusinessProfile.query.filter_by(business_id = business_data['business_id']).update(
+            profile_update = BusinessProfile.query.filter_by(business_id=business_data['business_id']).update(
                 dict(business_description=business_description,
                      business_needs=business_needs,
                      contractor_type=contractor_type)
@@ -322,16 +407,18 @@ def business_profile(id):
                                                     join user_info ui on ui.business = bp.business_id
                                                     join business b on b.id = bp.business_id
                                                     where ui.id in ("{id}")''').fetchone())
-        contractor_select = dict(db.engine.execute(f'''select description, id from business_categories where id ={business_data['business_type']}''').fetchone())
+        contractor_select = dict(db.engine.execute(
+            f'''select description, id from business_categories where id ={business_data['business_type']}''').fetchone())
         business_form.business_name.data = business_data['business_name']
         business_form.business_description.data = business_data['business_description']
         business_form.business_needs.data = business_data['business_needs']
         business_form.contractor_type.data = contractor_select['id']
 
     else:
-        business_form=None
+        business_form = None
 
     return render_template('business_profile.html', business_form=business_form)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -350,25 +437,26 @@ def register():
         business_name = form.business_name.data
         passwd = flask_bcrypt.generate_password_hash(form.password.data)
         business = Business(business_name=form.business_name.data,
-                            type=form.business_type.data,
+                            business_type=form.business_type.data,
                             phone=None,
                             email=form.email.data,
                             description=None)
         db.session.add(business)
         db.session.commit()
         business_id = db.engine.execute(
-            f'select id,type from business where business_name in ("{form.business_name.data}") and type in ("{form.business_type.data}"); ').fetchone()
+            f'select id,business_type from business where business_name in ("{form.business_name.data}") and business_type in ("{form.business_type.data}"); ').fetchone()
         print(business_id['id'])
         user = UserInfo(first_name=form.first_name.data,
                         last_name=form.last_name.data,
                         email=form.email.data,
                         password=passwd,
                         business=business_id['id'],
-                        business_type=business_id['type'])
+                        business_type=business_id['business_type'])
 
         db.session.add(user)
         db.session.commit()
-        user_id = db.engine.execute(f'select id, business_type from user_info where email in ("{form.email.data}");').fetchone()
+        user_id = db.engine.execute(
+            f'select id, business_type from user_info where email in ("{form.email.data}");').fetchone()
         if user_id['business_type'] == 1:
             user_profile = UserProfile(user_id=user_id['id'],
                                        business=business_id['id'])
@@ -411,6 +499,7 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
 
 if __name__ == '__main__':
     app.run()

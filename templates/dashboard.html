@@ -19,7 +19,7 @@
     <link href="css/styles.css" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"/>
 
 </head>
     {%block addl_styles %}
@@ -61,7 +61,7 @@
                     <a href="#"><i class="bi bi-house-door-fill"></i></i>&nbsp;&nbsp;Overview</a>
                 </li>
                 <li>
-                    <a href="#"><i class="bi bi-trophy-fill"></i></i>&nbsp;&nbsp;Projects</a>
+                    <a href="{{url_for('projects')}}"><i class="bi bi-trophy-fill"></i></i>&nbsp;&nbsp;Projects</a>
                 </li>
                 <li>
                     <a href="#"><i class="bi bi-calendar2-week-fill"></i></i>&nbsp;&nbsp;Schedules</a>
@@ -191,10 +191,10 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col">Project Name</th>
-                                                                    <th scope="col">Team</th>
                                                                     <th scope="col">Start Date</th>
                                                                     <th scope="col">End Date</th>
                                                                     <th scope="col">Progress</th>
+                                                                    <th scope="col">Edit</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -202,7 +202,6 @@
                                                              <tr>
                                                                     <th style="text-align: left" scope="row">{{job["job_title"]}}</th>
 
-                                                                    <td>{{job["business_name"]}}</td>
                                                                     <td>{{job["job_started_on"]}}</td>
                                                                     <td>{{job["job_complete_on"]}}</td>
                                                                     <td>
@@ -213,14 +212,89 @@
                                                                             </div>
                                                                         </div>
                                                                     </td>
+                                                                    <td>
+                                                                         <form method="post">
+                                                                               <button type="submit" class="btn btn-primary bi bi-pencil-square"></button>
+                                                                         </form>
+                                                                    </td>
                                                                 </tr>
                                                             {%endfor%}
 
 
 
                                                             </tbody>
+
                                                         </table>
+
+                                                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-file-earmark-plus-fill"></i>  Add new Task</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                      <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                          <div class="modal-header">
+                                                            <h5 class="modal-title" id="staticBackdropLabel">Add new Task</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                          </div>
+                                                          <div class="modal-body">
+                                                           <form method="post" action="/addTask">
+                                                              <div class="mb-3">
+                                                                <label for="exampleInputEmail1" class="form-label">Project Name</label>
+                                                                <input class="form-control" id="exampleInputEmail1" name="task_name" required>
+
+                                                              </div>
+                                                                 <div class="mb-3">
+                                                                         <label for="eventstartdate">Start Date</label>
+                                                                      <input id="eventstartdate" type="date" name="eventstartdate" required>
+<!--                                                                     <label for="eventstarttime">Start Time</label>-->
+                                                                   <input id="eventstarttime" type="time" name="eventstarttime" value="13:30">
+                                                                 </div>
+                                                          <div class="mb-3">
+
+                                                                 <label for="eventenddate">End Date</label>
+                                                                      <input id="eventenddate" type="date" name="eventenddate" required>
+<!--                                                                     <label for="eventstarttime">Start Time</label>-->
+                                                                   <input id="eventendtime" type="time" name="eventendtime" value="13:30">
+
+                                                          </div>
+
+                                                                <div class="mb-3">
+
+                                                                <label for="progress" class="form-label">Progress</label>
+                                                                <input type="range" class="form-range" min="0" max="100" step="1" id="progress" name="progress" required>
+                                                                    <p>Value: <span id="progressoutput"></span></p>
+
+                                                              </div>
+                                                         <div class="mb-3">
+                                                               <label for="exampleColorInput" class="form-label">Color picker</label>
+                                                            <input type="color" class="form-control form-control-color" id="exampleColorInput" name="exampleColorInput" value="#563d7c" title="Choose your color">
+                                                                </div>
+                                                                <p>Color Value: <span id="coloroutput" name="coloroutput"></span></p>
+                                                              <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                                          </div>
+                                                               <script>
+                                                                        var slider = document.getElementById("progress");
+                                                                        var output = document.getElementById("progressoutput");
+                                                                        output.innerHTML = slider.value;
+                                                                        var color_input = document.getElementById("exampleColorInput");
+                                                                        var color_ouput = document.getElementById("coloroutput");
+                                                                        slider.oninput = function() {
+                                                                          output.innerHTML = this.value;
+                                                                        }
+                                                                        color_input.oninput = function() {
+                                                                          color_ouput.innerHTML = this.value;
+                                                                        }
+                                                                        </script>
+                                                               <input type="hidden" name="user_id" value="{{ current_user.id }}">
+                                                            </form>
+                                                          </div>
+
+                                                        </div>
+                                                      </div>
                                                     </div>
+                                                <!--     modal end    -->
+                                                </div>
                                                     <div class="tab-pane" id="inactive" role="tabpanel">
                                                        <!-- insert table here -->
                                                     </div>
@@ -315,7 +389,6 @@
             integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
             crossorigin="anonymous"></script>
 
-
     {% block addl_scripts%}
     <script type="text/javascript">
         $(document).ready(function () {
@@ -328,16 +401,40 @@
     </script>
 
     <link href='static/css/fullcalendar.css' rel='stylesheet' />
+        <script src="/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
     <script src='static/js/fullcalendar.js'></script>
      <script >
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                  left: 'dayGridMonth,timeGridWeek,listWeek',
+                  center: 'title',
+                  right: "prev,next"
+                },
+                navLinks: true,
+                buttonText: {
+                  dayGridMonth: 'Month',
+                  timeGridWeek: 'Week',
+
+                  listWeek: 'List week'
+                },
+
+                initialView: 'dayGridMonth',
+
+                dayHeaders: true,
+
+                editable: true,
+                  eventContent: function( arg ) {
+                  return { html: arg.event.title };
+               },
                 events : [
                     {% for job in job_data %}
                     {
                         title : '{{job["job_title"]}}',
                         start : '{{job["job_started_on"]}}',
                         end    : '{{job["job_complete_on"]}}',
+                        color : '{{job["color"]}}'
                     },
                     {% endfor %}
                 ]
