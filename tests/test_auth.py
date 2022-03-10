@@ -67,3 +67,7 @@ def test_user_can_access_dashboard_after_login(client, auth):
     assert response.status_code == 200
 
 
+def test_user_cannot_access_dashboard_after_logout(client, auth):
+    auth.logout()
+    response = client.get('/dashboard')
+    assert response.status_code == 401  # Unauthorized
