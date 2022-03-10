@@ -58,3 +58,12 @@ def test_logout(auth):
     assert response.status_code == 302
     assert response.headers.get("Set-Cookie") is None
     assert response.headers['Location'] == 'http://localhost/'
+
+
+def test_user_can_access_dashboard_after_login(client, auth):
+    response = auth.login()
+    assert response.status_code == 200
+    response = client.get('/')
+    assert response.status_code == 200
+
+
