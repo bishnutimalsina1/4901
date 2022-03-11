@@ -102,10 +102,17 @@
                     <div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto" style="margin-right: 1em;">
                             <!-- Actual search box -->
+                            {% if events|length >= 1 %}
+                            <div class="alert alert-danger " style="margin-right: 2em;">
+                                <span class="form-control-feedback"></span>
+                                You Have A Task Due Soon!
+                            </div>
+                            {% endif %}
                             <div class="form-group has-search " style="margin-right: 2em;">
                                 <span class="form-control-feedback"></span>
                                 <input type="text" class="form-control" placeholder="Search"></input>
                             </div>
+
 <!--                            <li class="nav-item" style="margin-right: 2em;">-->
 <!--                                <a class="nav-link" href="#">Link2</a>-->
 <!--                            </li>-->
