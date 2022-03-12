@@ -132,8 +132,8 @@ class businessProfileForm(FlaskForm):
 @app.route('/')
 def home():  # put application's code here
     user_data = UserInfo.query.all()
-    for user in user_data:
-        print(user.first_name)
+    # for user in user_data:
+    #     print(user.first_name)
     # jobs = db.engine.execute(f'''select * from jobs where user_id = 57''').fetchall()
     debug = True
     return render_template('index.html', user_data=user_data)
@@ -197,11 +197,7 @@ def addTask():
     start = start_date + ' ' + start_time + ":00"
     end = end_date + ' ' + end_time + ":00"
     user_id = request.form.get('user_id')
-    print(task_name)
-    print(start)
-    print(end)
-    print(progress)
-    print(color)
+
 
     db.engine.execute(text('''insert into jobs
          (job_title, job_description, job_hourly_pay, business_id, user_id, job_required_skills, is_active, is_complete, job_started_on, job_complete_on, progress, color)
@@ -340,7 +336,7 @@ def user_profile(id):
                                            join user_info ui on ui.id = up.user_id
                                            join business b on b.id = up.business   
                                            where up.user_id in("{id}"); ''').fetchone())
-        print(contractor_form.errors)
+        # print(contractor_form.errors)
         ## set form data to pre-existing data if exists
         contractor_form.email.data = user_data['email'] if user_data['email'] else None
         contractor_form.city.data = user_data['city'] if user_data['city'] else None
@@ -445,7 +441,7 @@ def register():
         db.session.commit()
         business_id = db.engine.execute(
             f'select id,business_type from business where business_name in ("{form.business_name.data}") and business_type in ("{form.business_type.data}"); ').fetchone()
-        print(business_id['id'])
+        # print(business_id['id'])
         user = UserInfo(first_name=form.first_name.data,
                         last_name=form.last_name.data,
                         email=form.email.data,
