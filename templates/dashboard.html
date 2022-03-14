@@ -214,9 +214,142 @@
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                         <form method="post">
-                                                                               <button type="submit" class="btn btn-primary bi bi-pencil-square"></button>
-                                                                         </form>
+                                                                        <button type="button"
+                                                                                class="btn btn-primary bi bi-pencil-square"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#editModal{{job['id']}}"
+                                                                        ></button>
+                                                                        <div class="modal fade" id="editModal{{job['id']}}"
+                                                                             data-bs-backdrop="static"
+                                                                             data-bs-keyboard="false"
+                                                                             tabindex="-1"
+                                                                             aria-labelledby="staticBackdropLabel"
+                                                                             aria-hidden="true">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"
+                                                                                            id="editBackdropLabel">Edit
+                                                                                            Task</h5>
+                                                                                        <button type="button"
+                                                                                                class="btn-close"
+                                                                                                data-bs-dismiss="modal"
+                                                                                                aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <form method="post"
+                                                                                              action="/editTask">
+                                                                                            <div class="mb-3">
+                                                                                                <label for="edit_task_name"
+                                                                                                       class="form-label">Project
+                                                                                                    Name</label>
+                                                                                                <input class="form-control"
+                                                                                                       id="edit_task_name"
+                                                                                                       name="task_name"
+                                                                                                       value={{job["job_title"]}}
+                                                                                                       required>
+
+                                                                                            </div>
+                                                                                            <div class="mb-3">
+                                                                                                <label for="edit_eventstartdate">Start
+                                                                                                    Date</label>
+                                                                                                <input id="edit_eventstartdate"
+                                                                                                       type="date"
+                                                                                                       name="eventstartdate"
+                                                                                                       value={{job['job_started_on'].date()}}
+                                                                                                       required>
+                                                                                                <!--                                                                     <label for="eventstarttime">Start Time</label>-->
+                                                                                                <input id="edit_eventstarttime"
+                                                                                                       type="time"
+                                                                                                       name="eventstarttime"
+                                                                                                       value={{job['job_started_on'].time()}}>
+                                                                                            </div>
+                                                                                            <div class="mb-3">
+
+                                                                                                <label for="edit_eventenddate">End
+                                                                                                    Date</label>
+                                                                                                <input id="edit_eventenddate"
+                                                                                                       type="date"
+                                                                                                       name="eventenddate"
+                                                                                                       value={{job['job_complete_on'].date()}}
+                                                                                                       required>
+                                                                                                <!--                                                                     <label for="eventstarttime">Start Time</label>-->
+                                                                                                <input id="edit_eventendtime"
+                                                                                                       type="time"
+                                                                                                       name="eventendtime"
+                                                                                                       value="{{job['job_complete_on'].time()}}">
+
+                                                                                            </div>
+
+                                                                                            <div class="mb-3">
+
+                                                                                                <label for="progress"
+                                                                                                       class="form-label">Progress</label>
+                                                                                                <input type="range"
+                                                                                                       class="form-range"
+                                                                                                       min="0" max="100"
+                                                                                                       step="1"
+                                                                                                       id="edit_progress{{job['id']}}"
+                                                                                                       name="progress"
+                                                                                                       value={{job['progress']|int}}>
+                                                                                                       required>
+                                                                                                <p>Value: <span
+                                                                                                        id="edit_progressoutput{{job['id']}}">{{job['progress']}}</span>
+                                                                                                </p>
+
+                                                                                            </div>
+                                                                                            <div class="mb-3">
+                                                                                                <label for="exampleColorInput"
+                                                                                                       class="form-label">Color
+                                                                                                    picker</label>
+                                                                                                <input type="color"
+                                                                                                       class="form-control form-control-color"
+                                                                                                       id="edit_ColorInput{{job['id']}}"
+                                                                                                       name="exampleColorInput"
+                                                                                                       value="#563d7c"
+                                                                                                       title="Choose your color">
+                                                                                            </div>
+                                                                                            <p>Color Value: <span
+                                                                                                    id="edit_coloroutput{{job['id']}}"
+                                                                                                    >{{job['color']}}</span>
+                                                                                            </p>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button"
+                                                                                                        class="btn btn-secondary"
+                                                                                                        data-bs-dismiss="modal">
+                                                                                                    Close
+                                                                                                </button>
+                                                                                                <button type="submit"
+                                                                                                        class="btn btn-primary">
+                                                                                                    Submit
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <script>
+                                                                                                var edit_slider{{job['id']}} = document.getElementById("edit_progress{{job['id']}}");
+                                                                                                var edit_output{{job['id']}} = document.getElementById("edit_progressoutput{{job['id']}}");
+                                                                                                edit_output{{job['id']}}.innerHTML = edit_slider{{job['id']}}.value;
+                                                                                                var edit_color_input{{job['id']}} = document.getElementById("edit_ColorInput{{job['id']}}");
+                                                                                                var edit_color_output{{job['id']}} = document.getElementById("edit_coloroutput{{job['id']}}");
+                                                                                                edit_slider{{job['id']}}.oninput = function () {
+                                                                                                    edit_output{{job['id']}}.innerHTML = this.value;
+                                                                                                }
+                                                                                                edit_color_input{{job['id']}}.oninput = function () {
+                                                                                                    edit_color_output{{job['id']}}.innerHTML = this.value;
+                                                                                                }
+                                                                                            </script>
+                                                                                            <input type="hidden"
+                                                                                                   name="user_id"
+                                                                                                   value="{{ current_user.id }}">
+                                                                                             <input type="hidden"
+                                                                                                   name="task_id"
+                                                                                                   value="{{ job['id'] }}">
+                                                                                        </form>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
                                                                     </td>
                                                                 </tr>
                                                             {%endfor%}
