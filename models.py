@@ -116,6 +116,7 @@ class UserProfile(db.Model):
         self.profile_picture_path = profile_picture_path
         self.profile_picture_filename = profile_picture_filename
 
+
 class BusinessProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     business_id = db.Column(db.Integer)
@@ -125,13 +126,15 @@ class BusinessProfile(db.Model):
     contractor_type = db.Column(db.Integer)
     profile_picture_filename = db.Column(db.VARCHAR)
 
-    def __init__(self, business_id=None, user_id=None, business_description=None, business_needs=None, contractor_type=None, profile_picture_filename=None):
+    def __init__(self, business_id=None, user_id=None, business_description=None, business_needs=None,
+                 contractor_type=None, profile_picture_filename=None):
         self.business_id = business_id
         self.user_id = user_id
         self.business_description = business_description
         self.business_needs = business_needs
         self.contractor_type = contractor_type
         self.profile_picture_filename = profile_picture_filename
+
 
 class Jobs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -148,7 +151,7 @@ class Jobs(db.Model):
     progress = db.Column(db.Integer)
     color = db.Column(db.VARCHAR)
 
-    def __init__(self, job_name=None, job_title=None, job_description=None, job_hourly_pay=None, business_id=None,
+    def __init__(self, job_title=None, job_description=None, job_hourly_pay=None, business_id=None,
                  user_id=None, job_required_skills=None, is_active=None, is_complete=None, job_started_on=None,
                  job_complete_on=None, progress=None, color=None):
         self.job_title = job_title
@@ -163,4 +166,3 @@ class Jobs(db.Model):
         self.job_complete_on = job_complete_on
         self.progress = progress
         self.color = color
-
