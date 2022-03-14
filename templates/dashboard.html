@@ -155,41 +155,42 @@
                                 <div class="chart-area">
 
                                     <!-- Card Body -->
-                                <div class="card-body" style="border-width: 0;text-align: left;">
+                                    <div class="card-body" style="border-width: 0;text-align: left;">
 
-                                    <!--  -->
-                                    <div class="row">
-                                        <!-- Nav tabs -->
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <ul class="nav nav-tabs justify-content-left" role="tablist">
-                                                    <li class="nav-item">
-                                                        <a class="nav-link active" data-toggle="tab" href="#active"
-                                                            role="tab">
-                                                            <i class="now-ui-icons objects_umbrella-13"></i> Active
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" data-toggle="tab" href="#inactive"
-                                                            role="tab">
-                                                            <i class="now-ui-icons shopping_cart-simple"></i> Inactive
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" data-toggle="tab" href="#complete"
-                                                            role="tab">
-                                                            <i class="now-ui-icons shopping_shop"></i> Complete
-                                                        </a>
-                                                    </li>
+                                        <!--  -->
+                                        <div class="row">
+                                            <!-- Nav tabs -->
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <ul class="nav nav-tabs justify-content-left" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" data-toggle="tab" href="#active"
+                                                               role="tab">
+                                                                <i class="now-ui-icons objects_umbrella-13"></i> Active
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-toggle="tab" href="#inactive"
+                                                               role="tab">
+                                                                <i class="now-ui-icons shopping_cart-simple"></i>
+                                                                Inactive
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-toggle="tab" href="#complete"
+                                                               role="tab">
+                                                                <i class="now-ui-icons shopping_shop"></i> Complete
+                                                            </a>
+                                                        </li>
 
-                                                </ul>
-                                            </div>
-                                            <div class="card-body">
-                                                <!-- Tab panes -->
-                                                <div class="tab-content text-center">
-                                                    <div class="tab-pane active" id="active" role="tabpanel">
-                                                        <table class="table">
-                                                            <thead>
+                                                    </ul>
+                                                </div>
+                                                <div class="card-body">
+                                                    <!-- Tab panes -->
+                                                    <div class="tab-content text-center">
+                                                        <div class="tab-pane active" id="active" role="tabpanel">
+                                                            <table class="table">
+                                                                <thead>
                                                                 <tr>
                                                                     <th scope="col">Project Name</th>
                                                                     <th scope="col">Start Date</th>
@@ -197,19 +198,22 @@
                                                                     <th scope="col">Progress</th>
                                                                     <th scope="col">Edit</th>
                                                                 </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            {%for job in job_data%}
-                                                             <tr>
-                                                                    <th style="text-align: left" scope="row">{{job["job_title"]}}</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                {% for job in job_data %}
+                                                                <tr>
+                                                                    <th style="text-align: left" scope="row">
+                                                                        {{job["job_title"]}}
+                                                                    </th>
 
                                                                     <td>{{job["job_started_on"]}}</td>
                                                                     <td>{{job["job_complete_on"]}}</td>
                                                                     <td>
                                                                         <div class="progress">
                                                                             <div class="progress-bar" role="progressbar"
-                                                                                style="width: {{job["progress"]}}%" aria-valuenow="25"
-                                                                                aria-valuemin="0" aria-valuemax="100">
+                                                                                 style="width: {{job['progress']}}%"
+                                                                                 aria-valuenow="25"
+                                                                                 aria-valuemin="0" aria-valuemax="100">
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -352,101 +356,151 @@
 
                                                                     </td>
                                                                 </tr>
-                                                            {%endfor%}
+                                                                {%endfor%}
 
 
+                                                                </tbody>
 
-                                                            </tbody>
+                                                            </table>
 
-                                                        </table>
+                                                            <button type="button" class="btn btn-outline-info"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#staticBackdrop">
+                                                                <i class="bi bi-file-earmark-plus-fill"></i> Add new
+                                                                Task
+                                                            </button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="staticBackdrop"
+                                                                 data-bs-backdrop="static" data-bs-keyboard="false"
+                                                                 tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                                                 aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title"
+                                                                                id="staticBackdropLabel">Add new
+                                                                                Task</h5>
+                                                                            <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form method="post" action="/addTask">
+                                                                                <div class="mb-3">
+                                                                                    <label for="exampleInputEmail1"
+                                                                                           class="form-label">Project
+                                                                                        Name</label>
+                                                                                    <input class="form-control"
+                                                                                           id="exampleInputEmail1"
+                                                                                           name="task_name" required>
 
-                                                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-file-earmark-plus-fill"></i>  Add new Task</button>
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                      <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                          <div class="modal-header">
-                                                            <h5 class="modal-title" id="staticBackdropLabel">Add new Task</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                          </div>
-                                                          <div class="modal-body">
-                                                           <form method="post" action="/addTask">
-                                                              <div class="mb-3">
-                                                                <label for="exampleInputEmail1" class="form-label">Project Name</label>
-                                                                <input class="form-control" id="exampleInputEmail1" name="task_name" required>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="eventstartdate">Start
+                                                                                        Date</label>
+                                                                                    <input id="eventstartdate"
+                                                                                           type="date"
+                                                                                           name="eventstartdate"
+                                                                                           required>
+                                                                                    <!--                                                                     <label for="eventstarttime">Start Time</label>-->
+                                                                                    <input id="eventstarttime"
+                                                                                           type="time"
+                                                                                           name="eventstarttime"
+                                                                                           value="13:30">
+                                                                                </div>
+                                                                                <div class="mb-3">
 
-                                                              </div>
-                                                                 <div class="mb-3">
-                                                                         <label for="eventstartdate">Start Date</label>
-                                                                      <input id="eventstartdate" type="date" name="eventstartdate" required>
-<!--                                                                     <label for="eventstarttime">Start Time</label>-->
-                                                                   <input id="eventstarttime" type="time" name="eventstarttime" value="13:30">
-                                                                 </div>
-                                                          <div class="mb-3">
+                                                                                    <label for="eventenddate">End
+                                                                                        Date</label>
+                                                                                    <input id="eventenddate" type="date"
+                                                                                           name="eventenddate" required>
+                                                                                    <!--                                                                     <label for="eventstarttime">Start Time</label>-->
+                                                                                    <input id="eventendtime" type="time"
+                                                                                           name="eventendtime"
+                                                                                           value="13:30">
 
-                                                                 <label for="eventenddate">End Date</label>
-                                                                      <input id="eventenddate" type="date" name="eventenddate" required>
-<!--                                                                     <label for="eventstarttime">Start Time</label>-->
-                                                                   <input id="eventendtime" type="time" name="eventendtime" value="13:30">
+                                                                                </div>
 
-                                                          </div>
+                                                                                <div class="mb-3">
 
-                                                                <div class="mb-3">
+                                                                                    <label for="progress"
+                                                                                           class="form-label">Progress</label>
+                                                                                    <input type="range"
+                                                                                           class="form-range"
+                                                                                           min="0" max="100" step="1"
+                                                                                           id="progress" name="progress"
+                                                                                           required>
+                                                                                    <p>Value: <span
+                                                                                            id="progressoutput"></span>
+                                                                                    </p>
 
-                                                                <label for="progress" class="form-label">Progress</label>
-                                                                <input type="range" class="form-range" min="0" max="100" step="1" id="progress" name="progress" required>
-                                                                    <p>Value: <span id="progressoutput"></span></p>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="exampleColorInput"
+                                                                                           class="form-label">Color
+                                                                                        picker</label>
+                                                                                    <input type="color"
+                                                                                           class="form-control form-control-color"
+                                                                                           id="exampleColorInput"
+                                                                                           name="exampleColorInput"
+                                                                                           value="#563d7c"
+                                                                                           title="Choose your color">
+                                                                                </div>
+                                                                                <p>Color Value: <span id="coloroutput"
+                                                                                                      name="coloroutput"></span>
+                                                                                </p>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                            class="btn btn-secondary"
+                                                                                            data-bs-dismiss="modal">
+                                                                                        Close
+                                                                                    </button>
+                                                                                    <button type="submit"
+                                                                                            class="btn btn-primary">
+                                                                                        Submit
+                                                                                    </button>
+                                                                                </div>
+                                                                                <script>
+                                                                                    var slider = document.getElementById("progress");
+                                                                                    var output = document.getElementById("progressoutput");
+                                                                                    output.innerHTML = slider.value;
+                                                                                    var color_input = document.getElementById("exampleColorInput");
+                                                                                    var color_ouput = document.getElementById("coloroutput");
+                                                                                    slider.oninput = function () {
+                                                                                        output.innerHTML = this.value;
+                                                                                    }
+                                                                                    color_input.oninput = function () {
+                                                                                        color_ouput.innerHTML = this.value;
+                                                                                    }
+                                                                                </script>
+                                                                                <input type="hidden" name="user_id"
+                                                                                       value="{{ current_user.id }}">
+                                                                            </form>
+                                                                        </div>
 
-                                                              </div>
-                                                         <div class="mb-3">
-                                                               <label for="exampleColorInput" class="form-label">Color picker</label>
-                                                            <input type="color" class="form-control form-control-color" id="exampleColorInput" name="exampleColorInput" value="#563d7c" title="Choose your color">
+                                                                    </div>
                                                                 </div>
-                                                                <p>Color Value: <span id="coloroutput" name="coloroutput"></span></p>
-                                                              <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                                          </div>
-                                                               <script>
-                                                                        var slider = document.getElementById("progress");
-                                                                        var output = document.getElementById("progressoutput");
-                                                                        output.innerHTML = slider.value;
-                                                                        var color_input = document.getElementById("exampleColorInput");
-                                                                        var color_ouput = document.getElementById("coloroutput");
-                                                                        slider.oninput = function() {
-                                                                          output.innerHTML = this.value;
-                                                                        }
-                                                                        color_input.oninput = function() {
-                                                                          color_ouput.innerHTML = this.value;
-                                                                        }
-                                                                        </script>
-                                                               <input type="hidden" name="user_id" value="{{ current_user.id }}">
-                                                            </form>
-                                                          </div>
-
+                                                            </div>
+                                                            <!--     modal end    -->
                                                         </div>
-                                                      </div>
-                                                    </div>
-                                                <!--     modal end    -->
-                                                </div>
-                                                    <div class="tab-pane" id="inactive" role="tabpanel">
-                                                       <!-- insert table here -->
-                                                    </div>
-                                                    <div class="tab-pane" id="complete" role="tabpanel">
-                                                       <!-- insert table here -->
-                                                    </div>
-                                                    <div class="tab-pane" id="settings" role="tabpanel">
-                                                        <!-- insert table here -->
+                                                        <div class="tab-pane" id="inactive" role="tabpanel">
+                                                            <!-- insert table here -->
+                                                        </div>
+                                                        <div class="tab-pane" id="complete" role="tabpanel">
+                                                            <!-- insert table here -->
+                                                        </div>
+                                                        <div class="tab-pane" id="settings" role="tabpanel">
+                                                            <!-- insert table here -->
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <!-- End Tabs on plain Card -->
+
+                                            <!--  -->
                                         </div>
-
-                                        <!-- End Tabs on plain Card -->
-
-                                        <!--  -->
                                     </div>
-                                </div>
                                 </div>
 
                             </div>
@@ -459,7 +513,7 @@
                         <div class="card mb-4">
                             <!-- Card Header - Dropdown -->
                             <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between" >
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-black">Calendar</h6>
                                 <!--<div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -530,51 +584,50 @@
                 $('#sidebar').toggleClass('active');
                 $('')
             });
-            $('.contractor_dash').attr('style','font-weight:bold');
+            $('.contractor_dash').attr('style', 'font-weight:bold');
         });
     </script>
 
-    <link href='static/css/fullcalendar.css' rel='stylesheet' />
-        <script src="/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <link href='static/css/fullcalendar.css' rel='stylesheet'/>
+    <script src="/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
     <script src='static/js/fullcalendar.js'></script>
-     <script >
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                headerToolbar: {
-                  left: 'dayGridMonth,timeGridWeek,listWeek',
-                  center: 'title',
-                  right: "prev,next"
-                },
-                navLinks: true,
-                buttonText: {
-                  dayGridMonth: 'Month',
-                  timeGridWeek: 'Week',
+    <script>
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'dayGridMonth,timeGridWeek,listWeek',
+                center: 'title',
+                right: "prev,next"
+            },
+            navLinks: true,
+            buttonText: {
+                dayGridMonth: 'Month',
+                timeGridWeek: 'Week',
 
-                  listWeek: 'List week'
-                },
+                listWeek: 'List week'
+            },
 
-                initialView: 'dayGridMonth',
+            initialView: 'dayGridMonth',
 
-                dayHeaders: true,
+            dayHeaders: true,
 
-                editable: true,
-                  eventContent: function( arg ) {
-                  return { html: arg.event.title };
-               },
-                events : [
-                    {% for job in job_data %}
+            editable: true,
+            eventContent: function (arg) {
+                return {html: arg.event.title};
+            },
+            events: [
+                {% for job in job_data %}
                     {
                         title : '{{job["job_title"]}}',
-                        start : '{{job["job_started_on"]}}',
-                        end    : '{{job["job_complete_on"]}}',
-                        color : '{{job["color"]}}'
+                        start :'{{job["job_started_on"]}}',
+                        end:'{{job["job_complete_on"]}}',
+                        color:'{{job["color"]}}'
                     },
-                    {% endfor %}
-                ]
-            });
-            calendar.render();
-        </script>
+                {% endfor %}
+        ]})
+        calendar.render();
+    </script>
     {% endblock %}
 </main>
 <!--main section end-->
