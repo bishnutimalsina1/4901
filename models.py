@@ -132,3 +132,35 @@ class BusinessProfile(db.Model):
         self.business_needs = business_needs
         self.contractor_type = contractor_type
         self.profile_picture_filename = profile_picture_filename
+
+class Jobs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    job_title = db.Column(db.VARCHAR)
+    job_description = db.Column(db.VARCHAR)
+    job_hourly_pay = db.Column(db.Integer)
+    business_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer)
+    job_required_skills = db.Column(db.VARCHAR)
+    is_active = db.Column(db.VARCHAR)
+    is_complete = db.Column(db.VARCHAR)
+    job_started_on = db.Column(db.VARCHAR)
+    job_complete_on = db.Column(db.VARCHAR)
+    progress = db.Column(db.Integer)
+    color = db.Column(db.VARCHAR)
+
+    def __init__(self, job_name=None, job_title=None, job_description=None, job_hourly_pay=None, business_id=None,
+                 user_id=None, job_required_skills=None, is_active=None, is_complete=None, job_started_on=None,
+                 job_complete_on=None, progress=None, color=None):
+        self.job_title = job_title
+        self.job_description = job_description
+        self.job_hourly_pay = job_hourly_pay
+        self.business_id = business_id
+        self.user_id = user_id
+        self.job_required_skills = job_required_skills
+        self.is_active = is_active
+        self.is_complete = is_complete
+        self.job_started_on = job_started_on
+        self.job_complete_on = job_complete_on
+        self.progress = progress
+        self.color = color
+
