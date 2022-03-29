@@ -6,10 +6,10 @@ from app import app
 def client():
     return app.test_client()
 
+
 def test_home(client):
     resp = client.get('/')
     assert resp.status_code == 200
-    
 
 
 def test_home_bad_http_method(client):
