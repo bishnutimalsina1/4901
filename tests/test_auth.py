@@ -52,3 +52,11 @@ def test_login(auth):
     assert "session" in response.headers.get("Set-Cookie")
 
 
+@pytest.mark.usefixtures('logged_in_user')
+def test_logout(auth):
+    response = auth.logout()
+    assert response.status_code == 302
+    assert response.headers.get("Set-Cookie") is None
+    assert response.headers['Location'] == 'http://localhost/'
+
+
