@@ -198,11 +198,45 @@ def addTask():
     end = end_date + ' ' + end_time + ":00"
     user_id = request.form.get('user_id')
 
-
     db.engine.execute(text('''insert into jobs
          (job_title, job_description, job_hourly_pay, business_id, user_id, job_required_skills, is_active, is_complete, job_started_on, job_complete_on, progress, color)
          values (:job_title, :job_description, :job_hourly_pay, :business_id, :user_id, :job_required_skills, :is_active, :is_complete, :job_started_on, :job_complete_on,:progress, :color)
-         '''), job_title=task_name, job_description="", job_hourly_pay=10, business_id=user_id, user_id=user_id, job_required_skills="", is_active='T', is_complete='F', job_started_on=start, job_complete_on=end, progress=progress, color=color)
+         '''), job_title=task_name, job_description="", job_hourly_pay=10, business_id=user_id, user_id=user_id,
+                      job_required_skills="", is_active='T', is_complete='F', job_started_on=start, job_complete_on=end,
+                      progress=progress, color=color)
+    return redirect(url_for('dashboard'))
+
+
+@app.route('/editTask', methods=['POST'])
+@login_required
+def editTask():
+    task_name = request.form.get('task_name')
+    start_time = request.form.get('eventstarttime')
+    start_date = request.form.get('eventstartdate')
+    end_time = request.form.get('eventendtime')
+    end_date = request.form.get('eventenddate')
+    progress = request.form.get('progress')
+    color = request.form.get('exampleColorInput')
+    start = start_date + ' ' + start_time
+    end = end_date + ' ' + end_time
+    user_id = request.form.get('user_id')
+
+    task_id = request.form.get('task_id')
+    Jobs.query.filter_by(id=task_id).update(dict(
+        job_title=task_name,
+        job_description="",
+        job_hourly_pay=10,
+        business_id=user_id,
+        user_id=user_id,
+        job_required_skills="",
+        is_active='T',
+        is_complete='F',
+        job_started_on=start,
+        job_complete_on=end,
+        progress=progress,
+        color=color
+    ))
+    db.session.commit()
     return redirect(url_for('dashboard'))
 
 
