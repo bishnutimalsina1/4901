@@ -3,7 +3,7 @@ import re
 import pytest
 from models import UserInfo
 
-@pytest.mark.block_network
+
 def test_register(client, flask_app):
     """
     GIVEN a Flask application
@@ -37,3 +37,37 @@ def test_register(client, flask_app):
         assert user.first_name == register_data['first_name']
         assert user.last_name == register_data['last_name']
         assert user.email == register_data['email']
+
+
+def test_login(auth):
+    """
+    GIVEN a Flask application
+    WHEN the '/login' page is requested (GET)
+    THEN check the response is valid
+    """
+    response = auth.login()
+    assert response.status_code == 200
+    # Asset session cookie must be present
+    assert response.headers.get("Set-Cookie") is not None
+    assert "session" in response.headers.get("Set-Cookie")
+
+
+@pytest.mark.usefixtures('logged_in_user')
+def test_logout(auth):
+    response = auth.logout()
+    assert response.status_code == 302
+    assert response.headers.get("Set-Cookie") is None
+    assert response.headers['Location'] == 'http://localhost/'
+
+
+def test_user_can_access_dashboard_after_login(client, auth):
+    response = auth.login()
+    assert response.status_code == 200
+    response = client.get('/')
+    assert response.status_code == 200
+
+
+def test_user_cannot_access_dashboard_after_logout(client, auth):
+    auth.logout()
+    response = client.get('/dashboard')
+    assert response.status_code == 401  # Unauthorized
