@@ -7,7 +7,7 @@ def client():
     return app.test_client()
 
 
-def test_addtask(client):
+def test_add_task(client):
     resp = client.post('/addTask', json={
         'job_title': 'task_name',
         'job_description': "",
@@ -24,18 +24,18 @@ def test_addtask(client):
     assert resp.json.get('success')
 
 
-def test_addtask_bad_http_method(client):
+def test_add_task_bad_http_method(client):
     resp = client.get('/addTask')
     assert resp.status_code == 405
 
 
-def test_addtask_no_json_body(client):
+def test_add_task_no_json_body(client):
     resp = client.post('/addTask', data='something')
     assert resp.status_code == 400
     assert not resp.json.get('success')
 
 
-def test_addtask_missing_taskname(client):
+def test_add_task_missing_task_name(client):
     resp = client.post('/addTask', json={'username': 'mehdi'})
     assert resp.status_code == 400
     assert not resp.json.get('success')
