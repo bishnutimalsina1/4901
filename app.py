@@ -4,6 +4,7 @@ import flask_login
 from flask import render_template, url_for, redirect, flash, session, request, send_from_directory
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
+from powerline.segments.common import mail
 from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, DecimalField, \
     FileField
 from wtforms.validators import InputRequired, Length, ValidationError, Optional
@@ -17,6 +18,7 @@ from __init__ import create_app
 import os
 from uuid import uuid4
 from models import *
+from flask_mail import Message
 
 app = create_app('dev')
 login_manager = LoginManager()
@@ -76,6 +78,31 @@ class loginForm(FlaskForm):
         else:
             raise ValidationError('Incorrect Username or Password')
 
+
+class RequestResetForm(FlaskForm):
+    email = StringField(
+        validators=[InputRequired()],
+        render_kw={'class': 'form-control form-control-lg', 'placeholder': 'Email'})
+    submit = SubmitField(
+        'Request Password Reset',
+        render_kw={'class': 'register_input'})
+
+    def validate_email(self, email):
+        user = UserInfo.query.filter_by(email=email.data).first()
+        debug = True
+        if user is None:
+            raise ValidationError(
+                "There is no account with that email. You must register first.")
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(
+        validators=[InputRequired(), Length(min=6)],
+        render_kw={'class': 'form-control form-control-lg', 'placeholder': 'Password'})
+
+    submit = SubmitField(
+        'Reset Password',
+        render_kw={'class': 'register_input'})
 
 class contractorProfileForm(FlaskForm):
     first_name = StringField(
@@ -166,22 +193,72 @@ def dashboard():  # put application's code here
             'date': '2022-02-06T12:30:00',
         }
     ]
-    return render_template('dashboard.html', events=events, user_data=user_data, job_data=job_data)
+    return render_template('dashboard.html', events=events, user_data=user_data, job_data=job_data, uid=current_user.id)
+
+@app.route('/customer_schedules')
+@login_required
+def customer_schedules():  # put application's code here
+
+    user_data = db.engine.execute(f'''select * from user_profile where user_id = {current_user.id}''')
+
+    # job_data = db.engine.execute(f'''select * from jobs
+    #                                  join business b on b.id = jobs.business_id
+    #                                  where is_active = 'T' and user_id = {current_user.id}''').fetchall()
+    job_data = db.engine.execute(f'''select * from jobs ''').fetchall()
+    job_data = [dict(u) for u in job_data]
+    debug = True
+    events = [
+        {
+            'todo': 'Plumbing',
+            'date': '2022-02-01'
+        },
+        {
+            'todo': 'Tap',
+            'date': '2022-02-03',
+            'end': '2022-02-04'
+        },
+        {
+            'todo': 'Finishing',
+            'date': '2022-02-06T12:30:00',
+        }
+    ]
+    return render_template('customer_schedules.html', events=events, user_data=user_data, job_data=job_data, uid=current_user.id)
 
 
 @app.route('/dashboard/projects')
 @login_required
 def projects():  # put application's code here
 
-    user_data = db.engine.execute(f'''select * from user_profile where user_id = {current_user.id}''')
+    user_data = db.engine.execute(f'''select * from user_info where id = {current_user.id}''')
+    user_data = [dict(u) for u in user_data]
+    businessId = 0
+    for key in user_data:
+        businessId = key['business']
 
-    project_data = db.engine.execute(f'''select * from projects
-                                     join business b on b.id = projects.business_id
-                                     where is_approved = 0 and user_id = {current_user.id}''').fetchall()
-    job_data = db.engine.execute(f'''select * from projects ''').fetchall()
+    if current_user.business_type == 2:
+        project_data = db.engine.execute(f'''select * from projects
+                                             right join business b on b.id = projects.business_id
+                                             ''').fetchall()
+        # busi_data = db.engine.execute(f'''select * from business
+        #                                              where business.id = projects.user_id
+        #                                              ''').fetchall()
+        job_data = db.engine.execute(f'''select * from projects ''').fetchall()
+        job_data = [dict(u) for u in job_data]
+        print(project_data)
+
+        return render_template('customer_projects.html', user_data=user_data, job_data=job_data, project_data=project_data)
+
+    project_data = db.engine.execute((f'''select * from projects
+                                         right join user_info b on b.id = projects.user_id
+                                         where id = projects.user_id'''), bid=businessId)
+    job_data = db.engine.execute(f'''select * from projects ''')
     job_data = [dict(u) for u in job_data]
+    print('193')
+    project_data = [dict(u) for u in project_data]
+    print(project_data)
+    print(job_data)
 
-    return render_template('projects.html', user_data=user_data, job_data=job_data, project_data=project_data)
+    return render_template('projects.html', user_data=user_data, job_data=job_data, project_data=project_data, bId=businessId)
 
 
 @app.route('/addTask', methods=['POST'])
@@ -204,6 +281,7 @@ def addTask():
          '''), job_title=task_name, job_description="", job_hourly_pay=10, business_id=user_id, user_id=user_id,
                       job_required_skills="", is_active='T', is_complete='F', job_started_on=start, job_complete_on=end,
                       progress=progress, color=color)
+    flash("New task created!", "success")
     return redirect(url_for('dashboard'))
 
 
@@ -237,8 +315,16 @@ def editTask():
         color=color
     ))
     db.session.commit()
+    flash("Task edited!", "success")
     return redirect(url_for('dashboard'))
 
+@app.route('/delete_task/<int:id>', methods=['GET', 'POST'])
+def delete_task(id):
+    db.engine.execute(text('''
+    DELETE FROM jobs WHERE id = :user_id;
+    '''), user_id=id)
+    flash("Task deleted!", "success")
+    return redirect(url_for('dashboard'))
 
 @app.route('/customer_dashboard')
 @login_required
@@ -274,6 +360,7 @@ def hire_contractor():
          (business_id, user_id) 
          values (:business_id, :user_id)
          '''), business_id=contractor_id, user_id=c_user_id)
+    flash("New hire request is  sent!", "success")
     return redirect(url_for('customer_dashboard'))
 
 
@@ -294,7 +381,21 @@ def approve_request():
                      (project_id, user_id, business_id, is_approved) 
                      values (:project_id, :user_id, :business_id, :is_approved)
                      '''), project_id=project_id, user_id=user_id, business_id=business_id, is_approved=1)
+    flash("Request is approved!", "success")
+    return redirect(url_for('projects'))
 
+
+@app.route('/cancelRequest', methods=['GET', 'POST'])
+@login_required
+def cancelRequest():
+    project_id = request.form.get('project_id')
+    user_id = request.form.get('user_id')
+    business_id = request.form.get('business_id')
+    db.engine.execute(text('''
+        DELETE FROM projects WHERE project_id = :project_id;
+        '''), project_id=project_id)
+
+    flash("Request is cancelled!", "success")
     return redirect(url_for('projects'))
 
 
@@ -505,6 +606,46 @@ def register():
 
     return render_template('register.html', form=form)
 
+
+def send_reset_email(UserInfo):
+    token = UserInfo.get_reset_token()
+
+    theuseremail = UserInfo.email
+    msg = Message('Password Reset Request',
+                  sender='noreply@demo.com',
+                  recipients=[theuseremail])
+    msg.body = f'''To reset your password, visit the following link:
+     {url_for('resetpass', token=token, _external=True)}
+ If you did not make this request then simply ignore this email and no changes will be made.
+ '''
+    mail.send(msg)
+
+
+@app.route('/forgotpass', methods=['GET', 'POST'])
+def forgotpass():
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = UserInfo.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password.', 'info')
+        return redirect(url_for('login'))
+    return render_template('forgotpass.html', form=form)
+
+
+@app.route('/resetpass/<token>', methods=['GET', 'POST'])
+def resetpass(token):
+    user = UserInfo.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('forgotpass'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = flask_bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Your password has been updated! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('resetpass.html', form=form)
 
 @login_manager.user_loader
 def load_user(id):

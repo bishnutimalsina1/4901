@@ -1,5 +1,8 @@
+from itsdangerous import Serializer
+
 from __init__ import db
 
+from config import Config
 
 class UserInfo(db.Model):
     __table_args__ = {'extend_existing': True}
@@ -10,6 +13,19 @@ class UserInfo(db.Model):
     password = db.Column(db.VARCHAR(300), nullable=False)
     business = db.Column(db.Integer)
     business_type = db.Column(db.Integer)
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(Config.SECRET_KEY, expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(Config.SECRET_KEY)
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return UserInfo.query.get(user_id)
 
     def is_authenticated(self):
         return True

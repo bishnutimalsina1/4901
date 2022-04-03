@@ -24,6 +24,7 @@
 <!-- modal template start -->
 {% block content %}
 {% for user in user_data %}
+
 <div class="modal fade" id="{{user['user_id']}}Modal" tabindex="-1" role="dialog" aria-labelledby="{{user['user_id']}}ModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -38,7 +39,7 @@
                 <div class="container-fluid" style="background-color: rgb(247, 247, 247);">
                     <div class="row">
                         <div class="col-md-5 col-sm-12 ml-auto">
-                            <img src="{{url_for('serve_file',filename=user['profile_picture_path']) if user['profile_picture_path'] else 'https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg'}}"
+                            <img src="{{url_for('serve_file',filename=user['profile_picture_path']) if user['profile_picture_path'] else 'https://minimaltoolkit.com/images/randomdata/male/68.jpg'}}"
                                  class="img-fluid" style="width:80%; margin: 1em; border-radius: 15px;" alt="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/robert.jpg">
                             <div class="row" style="margin-left: 0.5em;">
                                 <div class="col-md-2">
@@ -178,13 +179,13 @@
                     <p> </p>
 
                     <li class="active">
-                        <a href="#"><i class="bi bi-house-door-fill"></i></i>&nbsp;&nbsp;Overview</a>
+                        <a href="{{url_for('customer_dashboard')}}"><i class="bi bi-house-door-fill"></i></i>&nbsp;&nbsp;Overview</a>
                     </li>
                     <li>
                         <a href="{{url_for('projects')}}"><i class="bi bi-trophy-fill"></i></i>&nbsp;&nbsp;Projects</a>
                     </li>
                     <li>
-                        <a href="#"><i class="bi bi-calendar2-week-fill"></i></i>&nbsp;&nbsp;Schedules</a>
+                        <a href="{{url_for('customer_schedules')}}"><i class="bi bi-calendar2-week-fill"></i></i>&nbsp;&nbsp;Schedules</a>
                     </li>
                     <li>
                         <a href="#"><i class="bi bi-bar-chart-fill"></i></i>&nbsp;&nbsp;Reports</a>
@@ -204,13 +205,13 @@
             </nav>
 
             <!-- Page Content  -->
-            <div id="content" style="width: 100%;">
+            <div id="content" style="width: 100%; background-color: #a1d1af42;">
 
 
 
 
 
-                <div class="container overflow-auto " style="height: 90vh;">
+                <div class="container overflow-auto " style="height: 100vh; padding-top: 1rem;">
                     <button style="margin-left:-3em; position: absolute;" type="button" id="sidebarCollapse" class="btn btn-info">
                             <span class="collapse-left"><i class=""></i></span>
                             <i class="bi bi-arrow-bar-left"></i>
@@ -461,7 +462,25 @@
                     </div>
                     <!-- row-end -->
                     <!-- modal start -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div id="alert1" style="position:fixed; bottom: 1rem; right: 1rem;  width: 30%;" class="shadow alert alert-{{ category }} alert-dismissible fade show d-flex align-items-center" role="alert">
+                                <span>{{ message }}</span>
+                <!--                <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+                <!--                <span aria-hidden="true">&times;</span>-->
+                <!--                </button>-->
+                            </div>
+                        <script type="text/javascript">
+                            setTimeout(function () {
 
+                                // Closing the alert
+                                $('#alert1').alert('close');
+                            }, 4000);
+                        </script>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                     <!-- modal-end -->
                 </div>
 
@@ -515,6 +534,19 @@
         {% endblock %}
     </main>
 <!--main section end-->
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/623f984b0bfe3f4a876fde94/1fv46lpfn';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
 </body>
 
 

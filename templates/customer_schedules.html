@@ -53,14 +53,14 @@
             <ul class="list-unstyled components">
                 <p></p>
 
-                <li class="active">
-                    <a href="{{url_for('dashboard')}}"><i class="bi bi-house-door-fill"></i></i>&nbsp;&nbsp;Overview</a>
+                <li >
+                    <a href="{{url_for('customer_dashboard')}}"><i class="bi bi-house-door-fill"></i></i>&nbsp;&nbsp;Overview</a>
                 </li>
                 <li>
                     <a href="{{url_for('projects')}}"><i class="bi bi-trophy-fill"></i></i>&nbsp;&nbsp;Projects</a>
                 </li>
-                <li>
-                    <a href="#"><i class="bi bi-calendar2-week-fill"></i></i>&nbsp;&nbsp;Schedules</a>
+                <li class="active">
+                    <a href="{{url_for('customer_schedules')}}"><i class="bi bi-calendar2-week-fill"></i></i>&nbsp;&nbsp;Schedules</a>
                 </li>
                 <li>
                     <a href="#"><i class="bi bi-bar-chart-fill"></i></i>&nbsp;&nbsp;Reports</a>
@@ -77,10 +77,21 @@
                             class="bi bi-box-arrow-right"></i>&nbsp;&nbsp;Log Out</a>
                 </li>
             </ul>
+            <div class="sidebar-header" >
+                    <div class="card h-20 shadow-lg border-0 bg-gradient2 ">
+                            <img src="/static/assets/man.png"  class="img-fluid " alt="">
+                            <div class="card-body p-2">
+                                <a class="text-decoration-none link-dark stretched-link" href="#!">
+                                    <h5 class="fs-5 fw-bold text-white">Just relax</h5>
+                                </a>
+                                <p class="text-white-50">Watch your projects progress in realtime</p>
+                            </div>
+                        </div>
+                </div>
         </nav>
 
         <!-- Page Content  -->
-        <div id="content" style="width: 100%; background-color: #69b5d542;">
+        <div id="content" style="width: 100%; background-color: #a1d1af42;">
 
 
 
@@ -181,11 +192,7 @@
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <button type="button"
-                                                                                class="btn btn-primary bi bi-pencil-square"
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="#editModal{{job['id']}}"
-                                                                        ></button>
+
                                                                         <div class="modal fade" id="editModal{{job['id']}}"
                                                                              data-bs-backdrop="static"
                                                                              data-bs-keyboard="false"
@@ -319,10 +326,7 @@
 
                                                                     </td>
                                                                     <td>
-                                                                        <form method="POST" >
-                                                                              <a  type="submit" class="btn btn-danger bi bi-trash" href="delete_task/{{job["id"]}}">
-                                                                               </a>
-                                                                         </form>
+
                                                                     </td>
                                                                 </tr>
                                                                 {% endif %}
@@ -333,12 +337,7 @@
 
                                                             </table>
 
-                                                            <button type="button" class="btn btn-outline-info"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#staticBackdrop">
-                                                                <i class="bi bi-file-earmark-plus-fill"></i> Add new
-                                                                Task
-                                                            </button>
+
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="staticBackdrop"
                                                                  data-bs-backdrop="static" data-bs-keyboard="false"
@@ -490,11 +489,7 @@
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <button type="button"
-                                                                                class="btn btn-primary bi bi-pencil-square"
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="#editModal{{job['id']}}"
-                                                                        ></button>
+
                                                                         <div class="modal fade" id="editModal{{job['id']}}"
                                                                              data-bs-backdrop="static"
                                                                              data-bs-keyboard="false"
@@ -628,10 +623,7 @@
 
                                                                     </td>
                                                                     <td>
-                                                                        <form method="POST" >
-                                                                              <a  type="submit" class="btn btn-danger bi bi-trash" href="delete_task/{{job["id"]}}">
-                                                                               </a>
-                                                                         </form>
+
                                                                     </td>
                                                                 </tr>
 
@@ -663,21 +655,45 @@
                         </div>
                          <div class="row">
                         <!-- Area Chart -->
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div class="card h-35 shadow-lg border-0 bg-gradient4 ">
-                            <img class="card-img-top" src="/static/assets/hand.png" alt="..."
-                                style="width: 90%; " />
-                            <div class="card-body ">
-                                <a class="text-decoration-none link-dark stretched-link" href="#!">
-                                    <h5 class="fs-5 fw-bold text-white">Grow your business</h5>
-                                </a>
-                                <p class="text-white-50">Customer relation management is the key.</p>
+                            <script>
+        (function(d, s, id) {
+            if (d.getElementById(id)) {
+                if (window.__TOMORROW__) {
+                    window.__TOMORROW__.renderWidget();
+                }
+                return;
+            }
+            const fjs = d.getElementsByTagName(s)[0];
+            const js = d.createElement(s);
+            js.id = id;
+            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
 
-                            </div>
+            fjs.parentNode.insertBefore(js, fjs);
+        })(document, 'script', 'tomorrow-sdk');
+        </script>
 
-                        </div>
-                        </div>
-
+        <div class="tomorrow"
+           data-location-id="115247"
+           data-language="EN"
+           data-unit-system="IMPERIAL"
+           data-skin="light"
+           data-widget-type="aqiPollen"
+           style="padding-bottom:22px;position:relative;"
+        >
+          <a
+            href="https://www.tomorrow.io/weather/"
+            rel="nofollow noopener noreferrer"
+            target="_blank"
+            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
+          >
+            <img
+              alt="Powered by Tomorrow.io"
+              src="https://weather-website-client.tomorrow.io/img/powered-by-tomorrow.svg"
+              width="140"
+              height="15"
+            />
+          </a>
+        </div>
                         </div>
                     </div>
 
