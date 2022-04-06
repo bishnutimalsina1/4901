@@ -39,13 +39,13 @@
                     <li >
                         <a href="{{url_for('customer_dashboard')}}"><i class="bi bi-house-door-fill"></i></i>&nbsp;&nbsp;Overview</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="{{url_for('projects')}}"><i class="bi bi-trophy-fill"></i></i>&nbsp;&nbsp;Projects</a>
                     </li>
                     <li>
                         <a href="{{url_for('customer_schedules')}}"><i class="bi bi-calendar2-week-fill"></i></i>&nbsp;&nbsp;Schedules</a>
                     </li>
-                    <li>
+                    <li  class="active">
                         <a href="{{url_for('reports')}}"><i class="bi bi-bar-chart-fill"></i></i>&nbsp;&nbsp;Reports</a>
                     </li>
                 </ul>
@@ -91,24 +91,7 @@
                             <i class="bi bi-list"></i>
                         </button>
 
-<!--                        <div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">-->
-<!--                            <ul class="nav navbar-nav ml-auto" style="margin-right: 1em;">-->
-<!--                                &lt;!&ndash; Actual search box &ndash;&gt;-->
-<!--                                <div class="form-group has-search " style="margin-right: 2em;">-->
-<!--                                    <span class="form-control-feedback"></span>-->
-<!--                                    <input type="text" class="form-control" placeholder="Search"></input>-->
-<!--                                </div>-->
-<!--                                <li class="nav-item" style="margin-right: 2em;">-->
-<!--                                    <a class="nav-link" href="#">Link2</a>-->
-<!--                                </li>-->
-<!--                                <li class="nav-item" style="margin-right: 2em;">-->
-<!--                                    <a class="nav-link" href="#">Link2</a>-->
-<!--                                </li>-->
-<!--                                <li class="nav-item" style="margin-right: 2em;">-->
-<!--                                    <a class="nav-link" href="#">Link2</a>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
+
                     </div>
                 </nav>
 
@@ -122,20 +105,9 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-black">Connection Requests</h6>
+                                    <h6 class="m-0 font-weight-bold text-black">Jobs Report</h6>
                                     <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
+
                                     </div>
                                 </div>
                                 <!-- Card Body -->
@@ -145,88 +117,14 @@
                                     <div class="row">
                                         <!-- Nav tabs -->
                                         <div class="card">
-                                            <div class="card-header">
-                                                <ul class="nav nav-tabs justify-content-left" role="tablist">
-                                                    <li class="nav-item">
-                                                        <a class="nav-link active" data-toggle="tab" href="#active"
-                                                            role="tab">
-                                                            <i class="now-ui-icons objects_umbrella-13"></i> Pending
-                                                            Request
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" data-toggle="tab" href="#inactive"
-                                                            role="tab">
-                                                            <i class="now-ui-icons shopping_cart-simple"></i> Approved
-                                                            Request
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" data-toggle="tab" href="#complete"
-                                                            role="tab">
-                                                            <i class="now-ui-icons shopping_shop"></i> Complete
-                                                        </a>
-                                                    </li>
-
-                                                </ul>
-                                            </div>
                                             <div class="card-body">
                                                 <!-- Tab panes -->
-                                                <div class="tab-content text-center">
-                                                    <div class="tab-pane active" id="active" role="tabpanel">
-                                                        <!-- accordion start -->
-
-                                                        {% for project in project_data %}
-
-                                                        {%if project['is_approved'] == 0%}
-                                                        <ul class="list-group">
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                                {{project['project_id']}}.
-                                                                {{fname}}
-                                                                {{project['business_name']}}<br>
-                                                                <small>{{project['email']}}</small>
-
-                                                                 <form method="POST" action="/cancelRequest">
-                                                               <input type="hidden" name="project_id" value="{{ project['project_id'] }}">
-                                                                <input type="hidden" name="user_id" value="{{ project['user_id'] }}">
-                                                                        <input type="hidden" name="business_id" value="{{ project['business_id'] }}">
-                                                                        <input type="hidden" name="is_approved" value="{{ project['is_approved'] }}">
-
-
-
-
-
-
-                                                                    <button type="submit"
-                                                                        class="rounded-circle btn btn-danger"><i
-                                                                            class="bi bi-x-lg"></i></button>
-                                                                        </form>
-
-                                                            </li>
-                                                        </ul>
-
-                                                        <!-- accordion end -->
-                                                        {% endif %}
-                                                        <!-- accordion end -->
-                                                        {% endfor %}
-                                                    </div>
-                                                    <div class="tab-pane" id="inactive" role="tabpanel">
-                                                        <!-- insert table here -->
-                                                       <!-- accordion start -->
-
-
-                                                    </div>
-                                                    <div class="tab-pane" id="complete" role="tabpanel">
-                                                        <!-- accordion start -->
-
-
-                                                        <!-- insert table here -->
-                                                    </div>
-                                                    <div class="tab-pane" id="settings" role="tabpanel">
-                                                        <!-- insert table here -->
-                                                    </div>
+                                                <div>
+                                                  <canvas id="myChart"></canvas>
                                                 </div>
+
+
+                                                <!-- Tab panes -->
                                             </div>
                                         </div>
 
@@ -245,7 +143,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-black">Hire the best</h6>
+                                    <h6 class="m-0 font-weight-bold text-black">Completion Status</h6>
                                     <div class="dropdown no-arrow">
 
 
@@ -257,8 +155,9 @@
                                 <div class="card-body">
 
                                     <div class="chart-pie pt-4 pb-2">
-                                        <img src="/static/assets/searching.jpeg" class="img-fluid" alt="...">
-                                        <p class="text-center">Find the best contractor in your town</p>
+                                        <div>
+                                          <canvas id="myChart2"></canvas>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -315,6 +214,7 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- Popper.JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
             integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
@@ -332,6 +232,82 @@
             });
 
         </script>
+
+       <script type="text/javascript">
+          const labels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+              'July',
+              'August',
+              'September',
+              'October',
+              'November',
+              'December'
+          ];
+
+          const data = {
+            labels: labels,
+            datasets: [{
+              label: 'Jobs',
+              backgroundColor: 'rgba(255,99,132,0.73)',
+              borderColor: 'rgb(255, 99, 132)',
+              data: [{{val_string}}],
+              fill: 'start',
+              tension: 0.2
+            }]
+          };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {}
+  };
+</script>
+        <script type="text/javascript">
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+  const labels2 = [
+            'Incomplete',
+            'Complete'
+          ];
+
+          const data2 = {
+            labels: labels2,
+            datasets: [{
+              label: 'Jobs',
+              data: [{{incomplete}}, {{completed}}],
+                backgroundColor: [
+                'rgba(207, 234, 225, 1)',
+                'rgb(0,192,208)',
+
+            ],
+            borderColor: [
+                'rgba(207, 234, 225, 1)',
+                'rgb(0,192,208)',
+
+            ],
+            }]
+          };
+
+  const myChart2 = new Chart(
+    document.getElementById('myChart2'),
+    {
+    type: 'doughnut',
+    data: data2,
+    options: {}
+  }
+  );
+</script>
+        <script>
+
+        </script>
+
     </main>
 
     <!-- Bootstrap core JS-->
@@ -350,6 +326,7 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
+
 <!--End of Tawk.to Script-->
 </body>
 {% endblock %}

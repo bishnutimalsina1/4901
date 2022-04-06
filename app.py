@@ -19,6 +19,7 @@ import os
 from uuid import uuid4
 from models import *
 from flask_mail import Message
+import collections
 
 app = create_app('dev')
 login_manager = LoginManager()
@@ -177,23 +178,48 @@ def dashboard():  # put application's code here
     #                                  where is_active = 'T' and user_id = {current_user.id}''').fetchall()
     job_data = db.engine.execute(f'''select * from jobs ''').fetchall()
     job_data = [dict(u) for u in job_data]
+
     debug = True
-    events = [
-        {
-            'todo': 'Plumbing',
-            'date': '2022-02-01'
-        },
-        {
-            'todo': 'Tap',
-            'date': '2022-02-03',
-            'end': '2022-02-04'
-        },
-        {
-            'todo': 'Finishing',
-            'date': '2022-02-06T12:30:00',
-        }
-    ]
-    return render_template('dashboard.html', events=events, user_data=user_data, job_data=job_data, uid=current_user.id)
+
+    return render_template('dashboard.html', user_data=user_data, job_data=job_data, uid=current_user.id)
+
+
+@app.route('/reports')
+@login_required
+def reports():  # put application's code here
+
+    # user_data = db.engine.execute(f'''select * from user_profile where user_id = {current_user.id}''')
+
+    job_data = db.engine.execute(f'''select * from jobs
+                                     join business b on b.id = jobs.business_id
+                                     where is_active = 'T' and user_id = {current_user.id}''').fetchall()
+    print(str(current_user.id))
+    job_data = db.engine.execute(f'''select * from jobs ''').fetchall()
+    job_data = [dict(u) for u in job_data]
+    out = {}
+    complete = 0
+    incomplete = 0
+    for entry in job_data:
+        if str(entry['user_id']) == str(current_user.id):
+            out[entry['job_complete_on'].month] = out.get(entry['job_complete_on'].month, 0) + 1
+            if entry['progress'] == '100':
+                complete += 1
+            else:
+                incomplete += 1
+
+    for x in range(1, 13):
+        if out.get(x) is None:
+            out[x] = 0
+
+    out = collections.OrderedDict(sorted(out.items()))
+    val_string = ','.join(str(out[v]) for v in out)
+
+    debug = True
+    complete = (complete / (complete + incomplete)) * 100
+    incomplete = 100 - complete
+
+    # return render_template('reports.html', events=events, user_data=user_data, job_data=job_data, uid=current_user.id)
+    return render_template('reports.html', val_string=val_string, completed=complete, incomplete=incomplete)
 
 @app.route('/customer_schedules')
 @login_required
