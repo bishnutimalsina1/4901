@@ -105,6 +105,7 @@ class ResetPasswordForm(FlaskForm):
         'Reset Password',
         render_kw={'class': 'register_input'})
 
+
 class contractorProfileForm(FlaskForm):
     first_name = StringField(
         render_kw={'class': 'form-control form-control-lg'})
@@ -221,6 +222,7 @@ def reports():  # put application's code here
     # return render_template('reports.html', events=events, user_data=user_data, job_data=job_data, uid=current_user.id)
     return render_template('reports.html', val_string=val_string, completed=complete, incomplete=incomplete)
 
+
 @app.route('/customer_schedules')
 @login_required
 def customer_schedules():  # put application's code here
@@ -248,7 +250,8 @@ def customer_schedules():  # put application's code here
             'date': '2022-02-06T12:30:00',
         }
     ]
-    return render_template('customer_schedules.html', events=events, user_data=user_data, job_data=job_data, uid=current_user.id)
+    return render_template('customer_schedules.html', events=events, user_data=user_data, job_data=job_data,
+                           uid=current_user.id)
 
 
 @app.route('/dashboard/projects')
@@ -272,7 +275,8 @@ def projects():  # put application's code here
         job_data = [dict(u) for u in job_data]
         print(project_data)
 
-        return render_template('customer_projects.html', user_data=user_data, job_data=job_data, project_data=project_data)
+        return render_template('customer_projects.html', user_data=user_data, job_data=job_data,
+                               project_data=project_data)
 
     project_data = db.engine.execute((f'''select * from projects
                                          right join user_info b on b.id = projects.user_id
@@ -284,7 +288,8 @@ def projects():  # put application's code here
     print(project_data)
     print(job_data)
 
-    return render_template('projects.html', user_data=user_data, job_data=job_data, project_data=project_data, bId=businessId)
+    return render_template('projects.html', user_data=user_data, job_data=job_data, project_data=project_data,
+                           bId=businessId)
 
 
 @app.route('/addTask', methods=['POST'])
@@ -344,6 +349,7 @@ def editTask():
     flash("Task edited!", "success")
     return redirect(url_for('dashboard'))
 
+
 @app.route('/delete_task/<int:id>', methods=['GET', 'POST'])
 def delete_task(id):
     db.engine.execute(text('''
@@ -351,6 +357,7 @@ def delete_task(id):
     '''), user_id=id)
     flash("Task deleted!", "success")
     return redirect(url_for('dashboard'))
+
 
 @app.route('/customer_dashboard')
 @login_required
@@ -672,6 +679,7 @@ def resetpass(token):
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('resetpass.html', form=form)
+
 
 @login_manager.user_loader
 def load_user(id):
