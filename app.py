@@ -4,7 +4,7 @@ import flask_login
 from flask import render_template, url_for, redirect, flash, session, request, send_from_directory
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from powerline.segments.common import mail
+#from powerline.segments.common import mail
 from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, DecimalField, \
     FileField
 from wtforms.validators import InputRequired, Length, ValidationError, Optional
@@ -18,7 +18,7 @@ from __init__ import create_app
 import os
 from uuid import uuid4
 from models import *
-from flask_mail import Message
+#from flask_mail import Message
 import collections
 
 app = create_app('dev')
